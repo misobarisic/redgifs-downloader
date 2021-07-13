@@ -1,0 +1,26 @@
+{
+  "bin": {
+    "index": "./index.js"
+  },
+  "name": "redgifs-downloader",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "pkg index.js",
+    "build-win": "pkg index.js --targets node12-win-x64",
+    "start": "node ."
+  },
+  "pkg": {
+    "targets": [
+      "node12-win-x64"
+    ],
+    "outputPath": "dist"
+  },
+  "author": "misob",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "pkg": "^5.3.0"
+  }
+}
