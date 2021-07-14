@@ -1,9 +1,9 @@
 {
   "bin": {
-    "redgifs-downloader": "./index.js"
+    "redgifs-downloader": "node index.js"
   },
   "name": "redgifs-downloader",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "This is a simple command line utiliy which allows you to download all videos from any user or search term on RedGIFs.",
   "engines": {
     "node": ">=8"
@@ -37,7 +37,9 @@
   "author": "misob",
   "license": "MIT",
   "dependencies": {
-    "axios": "^0.21.1",
+    "axios": "^0.21.1"
+  },
+  "devDependencies": {
     "camelcase": "^5.3.1",
     "kleur": "^4.1.4",
     "pkg": "^5.3.0",
