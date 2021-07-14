@@ -1,9 +1,9 @@
 {
   "bin": {
-    "redgifs-downloader": "index.compact.js"
+    "redgifs-downloader": "index.js"
   },
   "name": "redgifs-downloader",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "This is a simple command line utiliy which allows you to download all videos from any user or search term on RedGIFs.",
   "engines": {
     "node": ">=8"
