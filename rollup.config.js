@@ -1,4 +1,3 @@
-import camelcase from 'camelcase';
 import commonjs from 'rollup-plugin-commonjs';
 import copy from 'rollup-plugin-cpy';
 import json from 'rollup-plugin-json';
@@ -23,33 +22,32 @@ const config = [{
   plugins: [
     replace({
       patterns: [{
-        test: /^require\('([\w-]+)'(?:\s*,\s*'([\w-]+)')?\)/gm,
-        replace: (_, name, alias = name) => {
-          const prop = camelcase(alias);
-          const code = `log['${prop}'] = require('${name}');`;
-          return code;
-        }
-      }, {
         test: /require\('debug'\)/gm,
         replace: '(() => () => {})'
       }]
     }),
-    strip({ functions: ['debug'], sourceMap }),
+    strip({functions: ['debug'], sourceMap}),
     resolve(),
-    commonjs({ sourceMap }),
+    commonjs({sourceMap}),
     json(),
     copy({
       files: require.resolve('./xdg-open'),
       dest: __dirname,
-      options: { verbose: true }
+      options: {verbose: true}
     }),
     visualizer()
   ]
 }, {
+  input: 'preflight.js',
+  output: {
+    file: 'preflight.compact.js',
+    format: 'cjs',
+    sourcemap: sourceMap
+  },
   external: require('module').builtinModules,
   plugins: [
     resolve(),
-    commonjs({ sourceMap }),
+    commonjs({sourceMap}),
     json()
   ]
 }];

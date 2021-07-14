@@ -3,7 +3,7 @@
     "redgifs-downloader": "./index.js"
   },
   "name": "redgifs-downloader",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "This is a simple command line utiliy which allows you to download all videos from any user or search term on RedGIFs.",
   "engines": {
     "node": ">=8"
@@ -24,6 +24,8 @@
   "files": [
     "index.compact.js",
     "index.js",
+    "preflight.compact.js",
+    "preinstall.js",
     "xdg-open"
   ],
   "pkg": {
@@ -37,6 +39,7 @@
   "dependencies": {
     "axios": "^0.21.1",
     "camelcase": "^5.3.1",
+    "kleur": "^4.1.4",
     "pkg": "^5.3.0",
     "rollup": "^2.0.0",
     "rollup-plugin-commonjs": "^10.1.0",
