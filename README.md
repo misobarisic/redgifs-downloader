@@ -7,7 +7,9 @@
 This is a simple command line utiliy which allows you to download all videos from any user or search term on RedGIFs. Enjoy yourselves!
 
 ## Usage
-Clone this repo and run `npm i` followed by `npm start` or `node .`
+Requirements: `nodejs` and `npm`. There are 2 possible ways to use this program
+1. Run `npx redgifs-downloader` or
+2. Clone this repo and run `npm i` followed by `npm start` or `node .`
 
 
 ## Author

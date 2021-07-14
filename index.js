@@ -42,6 +42,7 @@ async function main() {
         if (index !== gfycats.length) {
             const gfycat = gfycats[index]
             const {gfyName: name, mp4Url} = gfycat
+            const size = gfycat.content_urls.mp4.size
             const finalPath = path.join(__dirname, `/${userMode ? user : search || "trending"}/${name}.mp4`)
 
             const writer = fs.createWriteStream(finalPath)
@@ -49,7 +50,7 @@ async function main() {
                 download(gfycats, index + 1)
             })
 
-            console.log(`(${index + 1}/${gfycats.length}) Downloading ${name}`)
+            console.log(`(${index + 1}/${gfycats.length}) Downloading ${name} - ${Math.round(size/1000000)} MB`)
             axios.get(mp4Url, {responseType: "stream"})
                 .then(async response => {
                     response.data.pipe(writer)
@@ -96,6 +97,7 @@ async function main() {
             fs.mkdirSync(path.join(__dirname, `/${userMode ? user : search || "trending"}`))
         } catch (e) {}
 
+        console.log("Base file path:",__dirname)
         console.log("Files to download:", gfycats.length)
         download(gfycats)
     } catch (e) {
