@@ -7,7 +7,10 @@
 This is a simple command line utiliy which allows you to download all videos from any user or search term on RedGIFs. Enjoy yourselves!
 
 ## Usage
-1. Install this package locally `npm i redgifs-downloader` or globally `npm i redgifs-downloader -g` 
+
+1. Clone this repo and run `npm i` followed by `npm start` or `node cli.js`
+
+2. Install this package locally `npm i redgifs-downloader` or globally `npm i redgifs-downloader -g` 
 ```javascript
 const RedgifsDownloader = require("redgifs-downloader")
 const downloader = new RedgifsDownloader(__dirname)
@@ -16,7 +19,7 @@ downloader.downloadQuery("juicy")
 downloader.downloadUser("your favourite user's id")
 ```
 
-1+. EventListeners and more
+2+. EventListeners and more
 ```javascript
 const RedgifsDownloader = require("redgifs-downloader")
 const downloader = new RedgifsDownloader(__dirname) // Replace __dirname with your prefered directory of choice
@@ -37,12 +40,14 @@ downloader.addEventListener("onFileDownloadFinish", info => {
 downloader.addEventListener("onGetLinks", info => {
     console.log("[onGetLinks]", info)
 })
+downloader.addEventListener("onError", info => {
+    console.log("[onError]", info)
+})
 
-// The options object may contain these fields: minLikes, minViews, numberToDownload, minDuration, maxDuration
+// The options object may contain these fields: minLikes, minViews, minDuration, maxDuration, numberToDownload, 
 downloader.downloadQuery("juicy", options)
 ```
 
-2. Clone this repo and run `npm i` followed by `npm start` or `node cli.js`
 
 ## Author
 
