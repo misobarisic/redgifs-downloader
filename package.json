@@ -1,9 +1,9 @@
 {
   "bin": {
-    "redgifs-downloader": "index.js"
+    "redgifs-downloader": "cli.js"
   },
   "name": "redgifs-downloader",
-  "version": "0.0.9",
+  "version": "0.1.2",
   "description": "This is a simple command line utiliy which allows you to download all videos from any user or search term on RedGIFs.",
   "engines": {
     "node": ">=8"
@@ -13,18 +13,19 @@
     "redgifs downloader",
     "nsfw"
   ],
-  "main": "index.js",
+  "main": "lib.js",
   "scripts": {
-    "pkg-build": "pkg index.js",
-    "pkg-build-win": "pkg index.js --targets node12-win-x64",
-    "start": "node .",
+    "pkg-build": "pkg cli.js",
+    "pkg-build-win": "pkg cli.js --targets node12-win-x64",
+    "start": "node cli.js",
     "build": "rollup -c rollup.config.js",
     "preinstall": "node preinstall.js",
     "release": "npx np"
   },
   "files": [
-    "index.compact.js",
-    "index.js",
+    "cli.compact.js",
+    "cli.js",
+    "lib.js",
     "preflight.compact.js",
     "preflight.js",
     "preinstall.js",
