@@ -58,7 +58,7 @@ const RedgifsDownloader = require("redgifs-downloader")
 RedgifsDownloader.getUserLinks("your favourite user's id", {numberToDownload: 2}).then(console.log)
 
 //2
-const links = RedgifsDownloader.getSearchLinks("juicy", {minLikes: 3}).then(console.log)
+const links = await RedgifsDownloader.getSearchLinks("juicy", {minLikes: 3})
 ```
 
 ### Options object structure
