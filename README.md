@@ -9,15 +9,37 @@ This is a simple command line utiliy which allows you to download all videos fro
 ## Usage
 1. Install this package locally `npm i redgifs-downloader` or globally `npm i redgifs-downloader -g` 
 ```javascript
-const downloader = require("redgifs-downloader")
+const RedgifsDownloader = require("redgifs-downloader")
+const downloader = new RedgifsDownloader(__dirname)
 
-// user and dirname are mandatory, fileCount is optional
-//downloader.downloadUser(userId,dirname,fileCount)
-downloader.downloadUser(yourBelovedUser)
+downloader.downloadQuery("juicy")
+downloader.downloadUser("your favourite user's id")
+```
 
-// query and dirname are mandatory, fileCount is optional
-//downloader.downloadQuery(userId,dirname,fileCount)
-downloader.downloadQuery("juicy", __dirname, 2)
+1+. EventListeners and more
+```javascript
+const RedgifsDownloader = require("redgifs-downloader")
+const downloader = new RedgifsDownloader(__dirname) // Replace __dirname with your prefered directory of choice
+
+// EventListeners
+downloader.addEventListener("onStart", info => {
+    console.log("[onStart]", info)
+})
+downloader.addEventListener("onFinish", info => {
+    console.log("[onFinish]", info)
+})
+downloader.addEventListener("onFileDownloadStart", info => {
+    console.log("[onFileDownloadStart]", info)
+})
+downloader.addEventListener("onFileDownloadFinish", info => {
+    console.log("[onFileDownloadFinish]", info)
+})
+downloader.addEventListener("onGetLinks", info => {
+    console.log("[onGetLinks]", info)
+})
+
+// The options object may contain these fields: minLikes, minViews, numberToDownload, minDuration, maxDuration
+downloader.downloadQuery("juicy", options)
 ```
 
 2. Clone this repo and run `npm i` followed by `npm start` or `node cli.js`
