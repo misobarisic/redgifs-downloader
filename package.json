@@ -3,7 +3,7 @@
     "redgifs-downloader": "cli.js"
   },
   "name": "redgifs-downloader",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "This is a simple command line utiliy which allows you to download all videos from any user or search term on RedGIFs.",
   "engines": {
     "node": ">=8"
@@ -13,7 +13,7 @@
     "redgifs downloader",
     "nsfw"
   ],
-  "main": "lib.js",
+  "main": "/lib/index.js",
   "scripts": {
     "pkg-build": "pkg cli.js",
     "pkg-build-win": "pkg cli.js --targets node12-win-x64",
@@ -25,7 +25,8 @@
   "files": [
     "cli.compact.js",
     "cli.js",
-    "lib.js",
+    "lib/lib.js",
+    "lib/index.js",
     "preflight.compact.js",
     "preflight.js",
     "preinstall.js",

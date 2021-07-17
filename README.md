@@ -11,11 +11,11 @@ This is a simple command line utiliy which allows you to download all videos fro
 ```javascript
 const downloader = require("redgifs-downloader")
 
-// user and dirname are mandatory, filecount is optional
+// user and dirname are mandatory, fileCount is optional
 //downloader.downloadUser(userId,dirname,fileCount)
 downloader.downloadUser(yourBelovedUser)
 
-// query and dirname are mandatory, filecount is optional
+// query and dirname are mandatory, fileCount is optional
 //downloader.downloadQuery(userId,dirname,fileCount)
 downloader.downloadQuery("juicy", __dirname, 2)
 ```
