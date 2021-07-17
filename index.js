@@ -14,8 +14,9 @@ downloader.addEventListener("onFileDownloadFinish", info => {
     console.log("[onFileDownloadFinish]", info)
 })
 downloader.addEventListener("onGetLinks", info => {
-    console.log("[onGetData]", info)
+    console.log("[onGetLinks]", info)
 })
 
-// downloader.downloadUser("ashleyxoxxxox", {numberToDownload: 2,minViews: 100, minLikes: 5,maxDuration: 5})
+RedgifsDownloader.getSearchLinks("juicy",{minLikes:3}).then(console.log)
+// downloader.downloadUser("ashleyxoxxxox", {numberToDownload: 5, minLikes: 2})
 // downloader.downloadQuery("oiled ass", {numberToDownload: 2,minViews: 50})
