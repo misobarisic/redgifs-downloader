@@ -12,7 +12,7 @@ Requires `nodejs` and `npm`
 
 1. Clone this repo and run `npm i` followed by `npm start` or `node cli.js`
 
-2. Install this package locally `npm i redgifs-downloader` or globally `npm i redgifs-downloader -g`
+2. Install this package locally with `npm i redgifs-downloader` or globally with `npm i redgifs-downloader -g`
 
 ```javascript
 const RedgifsDownloader = require("redgifs-downloader")
@@ -56,7 +56,6 @@ downloader.downloadQuery("juicy", options)
 const RedgifsDownloader = require("redgifs-downloader")
 // 1
 RedgifsDownloader.getUserLinks("your favourite user's id", {numberToDownload: 2}).then(console.log)
-
 //2
 const links = await RedgifsDownloader.getSearchLinks("juicy", {minLikes: 3})
 ```
