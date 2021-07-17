@@ -2,11 +2,11 @@ const axios = require("axios")
 const fs = require("fs")
 const path = require("path")
 
-module.exports.downloadUser = (query,{dirname,fileCount}) => {
-    main(true,query,dirname,fileCount)
+module.exports.downloadUser = (query, options) => {
+    main(true, query, options)
 }
-module.exports.downloadQuery = (query,{dirname,fileCount}) => {
-    main(false,query,dirname,fileCount)
+module.exports.downloadQuery = (query, options) => {
+    main(false, query, options)
 }
 
 const instance = axios.create({
@@ -14,7 +14,7 @@ const instance = axios.create({
     timeout: 10000,
 })
 
-async function main(userMode, query,dirname = __dirname,fileCount) {
+async function main(userMode, query, {dirname = __dirname, fileCount}) {
     const userSize = 100
     const userEndpoint = "users/$user/gfycats?count=$count"
     const searchSize = 150

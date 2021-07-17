@@ -12,12 +12,12 @@ const isNpx = prefix && prefix.includes('npx');
 
 if (isGit || isNpx) process.exit();
 
-// const formatError = msg => `${kleur.white().inverse().bold().red(' Error ')} ${msg}`;
-//
-// const msg = 'redgifs-downloader is not supposed to be installed as a normal package';
-// console.error(` ${formatError(msg)}
-//
-//   Use npx instead:
-//   $ npx ${name}
-// `);
+const formatError = msg => `${kleur.white().inverse().bold().red(' Error ')} ${msg}`;
+
+const msg = 'redgifs-downloader is not supposed to be installed as a normal package';
+console.error(` ${formatError(msg)}
+
+  Use npx instead:
+  $ npx ${name}
+`);
 process.exit(1);
