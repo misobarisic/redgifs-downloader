@@ -44,10 +44,18 @@ downloader.addEventListener("onError", info => {
     console.log("[onError]", info)
 })
 
-// The options object may contain these fields: minLikes, minViews, minDuration, maxDuration, numberToDownload, 
 downloader.downloadQuery("juicy", options)
 ```
 
+### Options object structure
+
+| Field |  Data type  | Description |
+|:-----|:--------:|------:|
+| minLikes  | number | Minimum amount of likes |
+| minViews  | number | Minimum amount of views |
+| minDuration   |  number  |   Minimum gfy duration in seconds |
+| maxDuration   |  number  |   Maximum gfy duration in seconds |
+| numberToDownload   |  number  |   Max amount of gfycats to download |
 
 ## Author
 
