@@ -3,7 +3,7 @@
     "redgifs-downloader": "cli.js"
   },
   "name": "redgifs-downloader",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "This is a simple command line utiliy which allows you to download all videos from any user or search term on RedGIFs.",
   "engines": {
     "node": ">=8"

@@ -21,8 +21,6 @@ const searchCount = 150
 const searchEndpoint = "gfycats/search?search_text=$search&count=$count&order=trending"
 
 async function main(userMode, query, dirname, fileCount) {
-    console.log({userMode, query, dirname, fileCount})
-
     async function download(gfycats, index = 0) {
         const length = fileCount || gfycats.length
         if (index !== length) {
@@ -43,6 +41,7 @@ async function main(userMode, query, dirname, fileCount) {
                 })
         } else {
             console.log("Finished!")
+            return "RedGIFs download finished"
             process.exit()
         }
     }
@@ -66,7 +65,6 @@ async function main(userMode, query, dirname, fileCount) {
                 if (gfycats.length === 0) {
                     const data = (await instance.get(searchEndpoint.replace("$search", query).replace("$count", searchCount))).data
                     data.gfycats.forEach(gfy => gfycats.push(gfy))
-                    console.log(searchEndpoint.replace("$search", query).replace("$count", searchCount))
                     await getLinks(data.cursor)
                     return
                 }
