@@ -1,26 +1,27 @@
 const axios = require("axios")
 const fs = require("fs")
 const path = require("path")
-
-module.exports.downloadUser = (query, options) => {
-    main(true, query, options)
-}
-module.exports.downloadQuery = (query, options) => {
-    main(false, query, options)
-}
+const readline = require("readline");
 
 const instance = axios.create({
     baseURL: "https://api.redgifs.com/v1",
     timeout: 10000,
 })
 
-async function main(userMode, query, {dirname,fileCount}) {
-    if (!dirname) dirname = __dirname
+module.exports.downloadUser = (query, dirname, fileCount) => {
+    main(true, query, dirname, fileCount)
+}
+module.exports.downloadQuery = (query, dirname, fileCount) => {
+    main(false, query, dirname, fileCount)
+}
 
-    const userSize = 100
-    const userEndpoint = "users/$user/gfycats?count=$count"
-    const searchSize = 150
-    const searchEndpoint = "gfycats/search?search_text=$search&count=$count&order=trending"
+const userCount = 100
+const userEndpoint = "users/$user/gfycats?count=$count"
+const searchCount = 150
+const searchEndpoint = "gfycats/search?search_text=$search&count=$count&order=trending"
+
+async function main(userMode, query, dirname, fileCount) {
+    console.log({userMode, query, dirname, fileCount})
 
     async function download(gfycats, index = 0) {
         const length = fileCount || gfycats.length
@@ -28,7 +29,7 @@ async function main(userMode, query, {dirname,fileCount}) {
             const gfycat = gfycats[index]
             const {gfyName: name, mp4Url} = gfycat
             const size = gfycat.content_urls.mp4.size
-            const finalPath = path.join(dirname, `/${query || "trending"}/${name}.mp4`)
+            const finalPath = path.join(dirname, `/${query ? query : "trending"}/${name}.mp4`)
 
             const writer = fs.createWriteStream(finalPath)
             writer.on("close", () => {
@@ -42,7 +43,7 @@ async function main(userMode, query, {dirname,fileCount}) {
                 })
         } else {
             console.log("Finished!")
-            return "RedGIFs Downloader finished"
+            process.exit()
         }
     }
 
@@ -51,25 +52,26 @@ async function main(userMode, query, {dirname,fileCount}) {
         async function getLinks(cursor) {
             if (userMode) {
                 if (gfycats.length === 0) {
-                    const data = (await instance.get(userEndpoint.replace("$user", query).replace("$count", userSize))).data
+                    const data = (await instance.get(userEndpoint.replace("$user", query).replace("$count", userCount))).data
                     data.gfycats.forEach(gfy => gfycats.push(gfy))
                     await getLinks(data.cursor)
                     return
                 }
                 if (cursor) {
-                    const data = (await instance.get(userEndpoint.replace("$user", query).replace("$count", userSize) + `&cursor=${cursor}`)).data
+                    const data = (await instance.get(userEndpoint.replace("$user", query).replace("$count", userCount) + `&cursor=${cursor}`)).data
                     data.gfycats.forEach(gfy => gfycats.push(gfy))
                     await getLinks(data.cursor)
                 }
             } else {
                 if (gfycats.length === 0) {
-                    const data = (await instance.get(searchEndpoint.replace("$search", query).replace("$count", searchSize))).data
+                    const data = (await instance.get(searchEndpoint.replace("$search", query).replace("$count", searchCount))).data
                     data.gfycats.forEach(gfy => gfycats.push(gfy))
+                    console.log(searchEndpoint.replace("$search", query).replace("$count", searchCount))
                     await getLinks(data.cursor)
                     return
                 }
                 if (cursor) {
-                    const data = (await instance.get(userEndpoint.replace("$search", query).replace("$count", searchSize) + `&cursor=${cursor}`)).data
+                    const data = (await instance.get(userEndpoint.replace("$search", query).replace("$count", searchCount) + `&cursor=${cursor}`)).data
                     data.gfycats.forEach(gfy => gfycats.push(gfy))
                     await getLinks(data.cursor)
                 }
@@ -82,7 +84,7 @@ async function main(userMode, query, {dirname,fileCount}) {
             fs.mkdirSync(path.join(dirname, `/${query || "trending"}`))
         } catch (e) {}
 
-        console.log("Base file path:",dirname)
+        console.log("Base file path:", dirname)
         console.log("Files to download:", gfycats.length)
         download(gfycats)
     } catch (e) {
