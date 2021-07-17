@@ -50,7 +50,7 @@ downloader.addEventListener("onError", info => {
 downloader.downloadQuery("juicy", options)
 ```
 
-4. Standalone Links API (promise based)
+4. Standalone Links API
 
 ```javascript
 const RedgifsDownloader = require("redgifs-downloader")
