@@ -14,7 +14,9 @@ const instance = axios.create({
     timeout: 10000,
 })
 
-async function main(userMode, query, {dirname = __dirname, fileCount}) {
+async function main(userMode, query, {dirname,fileCount}) {
+    if (!dirname) dirname = __dirname
+
     const userSize = 100
     const userEndpoint = "users/$user/gfycats?count=$count"
     const searchSize = 150
