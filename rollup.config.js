@@ -11,34 +11,6 @@ const sourceMap = true;
 
 /** @type {Array<import('rollup').RollupOptions>} */
 const config = [{
-  input: 'index.js',
-  output: {
-    file: 'index.compact.js',
-    format: 'cjs',
-    banner: '#!/usr/bin/env node',
-    sourcemap: sourceMap
-  },
-  external: require('module').builtinModules,
-  plugins: [
-    replace({
-      patterns: [{
-        test: /require\('debug'\)/gm,
-        replace: '(() => () => {})'
-      }]
-    }),
-    strip({functions: ['debug'], sourceMap}),
-    resolve(),
-    commonjs({sourceMap}),
-    json(),
-    copy({
-      files: require.resolve('./xdg-open'),
-      dest: __dirname,
-      options: {verbose: true}
-    }),
-    visualizer()
-  ]
-},
-  {
     input: 'preflight.js',
     output: {
       file: 'preflight.compact.js',
