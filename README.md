@@ -6,15 +6,17 @@
     <img alt="NPM latest" src="https://img.shields.io/npm/v/redgifs-downloader" />
    </a>
 </p>
-This is a simple command line utiliy which allows you to download all videos from any user or search term on RedGIFs. Enjoy yourselves!
+This is a simple command line utility which allows you to download all videos from any user or search term on RedGIFs. Enjoy yourselves!
 
 ## Usage
 
-Requires `nodejs` and `npm`
+Requires `nodejs` and `npm`. There are multiple ways you can use this downloader. Pick one
 
 1. Clone this repo and run `npm i` followed by `npm start` or `node cli.js`
 
-2. Install this package locally with `npm i redgifs-downloader` or globally with `npm i redgifs-downloader -g`
+2. Clone this project, install dependencies with `npm i` and build your "shell node binary" with `npm run build-bin`
+
+3. Install this package locally with `npm i redgifs-downloader` or globally with `npm i redgifs-downloader -g`
 
 ```javascript
 const RedgifsDownloader = require("redgifs-downloader")
@@ -24,7 +26,7 @@ downloader.downloadQuery("juicy")
 downloader.downloadUser("your favourite user's id")
 ```
 
-3. EventListeners and more
+4. EventListeners and more
 ```javascript
 const RedgifsDownloader = require("redgifs-downloader")
 const downloader = RedgifsDownloader.instance(__dirname) // Replace __dirname with your prefered directory of choice
@@ -55,7 +57,7 @@ downloader.addEventListener("onError", info => {
 downloader.downloadQuery("juicy", options)
 ```
 
-4. Standalone Links API
+5. Standalone Links API
 
 ```javascript
 const RedgifsDownloader = require("redgifs-downloader")

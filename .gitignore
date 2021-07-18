@@ -1,2 +1,8 @@
-# Project exclude paths
 /node_modules/
+/bin/
+/dist/
+/.idea/
+index.js
+preflight.compact.js
+preflight.compact.js.map
+stats.html
