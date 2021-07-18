@@ -4,8 +4,7 @@
     <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" />
     <img alt="Downloads" src="https://img.shields.io/npm/dt/redgifs-downloader" />
     <img alt="NPM latest" src="https://img.shields.io/npm/v/redgifs-downloader" />
-    <img alt="NPM beta" src="https://img.shields.io/npm/v/redgifs-downloader/beta" />
-</a>
+   </a>
 </p>
 This is a simple command line utiliy which allows you to download all videos from any user or search term on RedGIFs. Enjoy yourselves!
 
