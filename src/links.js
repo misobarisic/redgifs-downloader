@@ -57,7 +57,7 @@ const pushToGfyArray = async (data, gfyArray, userMode, query, options, callback
 }
 
 const filter = (gfycats, options) => {
-    const {minDuration, maxDuration, minLikes, minViews, numberToDownload} = options
+    const {minDuration, maxDuration, minLikes, minViews, numberToDownload,nsfw} = options
     gfycats = gfycats.filter(gfycat => {
         let state = true
         if (minLikes && minViews) state = state && gfycat.likes >= minLikes && gfycat.views >= minViews
@@ -65,16 +65,19 @@ const filter = (gfycats, options) => {
         if (minViews) state = state && gfycat.views >= minViews
         if (minDuration) state = state && gfycat.duration >= minViews
         if (maxDuration) state = state && gfycat.duration <= maxDuration
+        if (nsfw) state = state && gfycat.nsfw
         return state
     })
     if (numberToDownload) gfycats = gfycats.slice(0, numberToDownload)
     return gfycats
 }
 
-userMaker = (query, count) => userEndpoint.replace("$user", query).replace("$count", count)
-searchMaker = (query, count) => searchEndpoint.replace("$search", query).replace("$count", count)
+const userMaker = (query, count) => userEndpoint.replace("$user", query).replace("$count", count)
+const searchMaker = (query, count) => searchEndpoint.replace("$search", query).replace("$count", count)
 
-module.exports.getLinksMain = getLinksMain
-module.exports.getUserLinks = getUserLinks
-module.exports.getSearchLinks = getSearchLinks
-module.exports.filter = filter
+module.exports = {
+    getLinksMain,
+    getUserLinks,
+    getSearchLinks,
+    filter
+}

@@ -2,7 +2,10 @@
 <p>
   <a href="https://github.com/misobarisic/redgifs-downloader/blob/master/LICENSE" target="_blank">
     <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" />
-  </a>
+    <img alt="Downloads" src="https://img.shields.io/npm/dt/redgifs-downloader" />
+    <img alt="NPM latest" src="https://img.shields.io/npm/v/redgifs-downloader" />
+    <img alt="NPM beta" src="https://img.shields.io/npm/v/redgifs-downloader/beta" />
+</a>
 </p>
 This is a simple command line utiliy which allows you to download all videos from any user or search term on RedGIFs. Enjoy yourselves!
 
@@ -16,7 +19,7 @@ Requires `nodejs` and `npm`
 
 ```javascript
 const RedgifsDownloader = require("redgifs-downloader")
-const downloader = new RedgifsDownloader(__dirname)
+const downloader = RedgifsDownloader.create(__dirname)
 
 downloader.downloadQuery("juicy")
 downloader.downloadUser("your favourite user's id")
@@ -25,9 +28,12 @@ downloader.downloadUser("your favourite user's id")
 3. EventListeners and more
 ```javascript
 const RedgifsDownloader = require("redgifs-downloader")
-const downloader = new RedgifsDownloader(__dirname) // Replace __dirname with your prefered directory of choice
+const downloader = RedgifsDownloader.instance(__dirname) // Replace __dirname with your prefered directory of choice
 
 // EventListeners
+downloader.addEventListener("onInit", info => {
+    console.log("[onInit]", info)
+})
 downloader.addEventListener("onStart", info => {
     console.log("[onStart]", info)
 })
@@ -54,7 +60,7 @@ downloader.downloadQuery("juicy", options)
 
 ```javascript
 const RedgifsDownloader = require("redgifs-downloader")
-// 1
+//1
 RedgifsDownloader.getUserLinks("your favourite user's id", {numberToDownload: 2}).then(console.log)
 //2
 const links = await RedgifsDownloader.getSearchLinks("juicy", {minLikes: 3})
@@ -69,6 +75,7 @@ const links = await RedgifsDownloader.getSearchLinks("juicy", {minLikes: 3})
 | minDuration   |  number  |   Minimum gfy duration in seconds |
 | maxDuration   |  number  |   Maximum gfy duration in seconds |
 | numberToDownload   |  number  |   Max amount of gfycats to download |
+| nsfw   |  boolean  |   ... |
 
 ## Author
 

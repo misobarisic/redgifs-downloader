@@ -1,18 +1,34 @@
 const EventEmitter = require('events')
 const {getLinksMain,filter} = require("./links")
-import { isBrowser, isNode} from "browser-or-node";
+const { isBrowser, isNode} = require("browser-or-node")
 
-module.exports = class Downloader {
+module.exports = {
+    create,
+    instance
+}
+
+class Downloader {
     constructor(dirname) {
         if (!dirname) throw(new Error("dirname constructor parameter must not be empty"))
         this.dirname = dirname
         this.eventEmitter = new EventEmitter()
     }
 
-    addEventListener = (type, listener) => this.eventEmitter.on(type, listener)
-    downloadUser = (query, options) => main(this, true, query, options)
-    downloadQuery = (query, options) => main(this, false, query, options)
+    addEventListener(type, listener) {
+        return this.eventEmitter.on(type, listener)
+    }
+
+    downloadUser(query, options) {
+        return main(this, true, query, options)
+    }
+
+    downloadQuery(query, options) {
+        return main(this, false, query, options)
+    }
 }
+
+function create(dirname) {return new Downloader(dirname)}
+function instance(dirname) {return new Downloader(dirname)}
 
 async function main(downloader, userMode, query, options) {
     // Can only be run inside node
@@ -22,9 +38,11 @@ async function main(downloader, userMode, query, options) {
         const path = require("path")
 
         const {dirname, eventEmitter} = downloader
-        const {minDuration, maxDuration, minLikes, minViews, numberToDownload} = options
+        const {minDuration, maxDuration, minLikes, minViews, numberToDownload,nsfw} = options
 
         if (minDuration && maxDuration) throw(new Error("Make sure minDuration and maxDuration aren't both defined"))
+
+        eventEmitter.emit("onInit", {userMode, query, ...options, date: new Date()})
 
         async function download(gfycats, index = 0) {
             try {
