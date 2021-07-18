@@ -54,11 +54,13 @@ const config = [{
   {
     input: './src/',
     output: [{
+      exports: 'named',
       file: './dist/lib.js',
       format: 'cjs',
-      sourcemap: sourceMap
+      sourcemap: sourceMap,
     },
       {
+        exports: 'named',
         file: './dist/lib.min.js',
         format: 'iife',
         sourcemap: sourceMap,
