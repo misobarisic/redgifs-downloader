@@ -37,6 +37,32 @@ const config = [{
     }),
     visualizer()
   ]
+},{
+  input: 'cli.js',
+  output: {
+    file: 'redgifs-downloader',
+    format: 'cjs',
+    banner: '#!/usr/bin/env node',
+  },
+  external: require('module').builtinModules,
+  plugins: [
+    replace({
+      patterns: [{
+        test: /require\('debug'\)/gm,
+        replace: '(() => () => {})'
+      }]
+    }),
+    strip({functions: ['debug'], sourceMap}),
+    resolve(),
+    commonjs({sourceMap}),
+    json(),
+    copy({
+      files: require.resolve('./xdg-open'),
+      dest: __dirname,
+      options: {verbose: true}
+    }),
+    visualizer()
+  ]
 },
   {
     input: 'preflight.js',

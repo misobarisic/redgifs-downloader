@@ -10,10 +10,9 @@ const instance = axios.create({
 
 let userMode = true
 
-let user
+let query
 const userCount = 100
 const userEndpoint = "users/$user/gfycats?count=$count"
-let search
 const searchCount = 150
 const searchEndpoint = "gfycats/search?search_text=$search&count=$count&order=trending"
 
@@ -26,24 +25,26 @@ rl.question("Type 1 to select user mode, type 2 to select search mode: ", input 
     userMode = input === "1"
     if (userMode) {
         rl.question("User ID: ", input => {
-            user = input
+            query = input
             main()
         })
     } else {
         rl.question("Search term (leave empty to download trending videos): ", input => {
-            search = input
+            query = input
             main()
         })
     }
 })
 
 async function main() {
+    const dirname = process.env.PWD || __dirname
+
     async function download(gfycats, index = 0) {
         if (index !== gfycats.length) {
             const gfycat = gfycats[index]
             const {gfyName: name, mp4Url} = gfycat
             const size = gfycat.content_urls.mp4.size
-            const finalPath = path.join(__dirname, `/${userMode ? user : search || "trending"}/${name}.mp4`)
+            const finalPath = path.join(dirname, `/${query || "trending"}/${name}.mp4`)
 
             const writer = fs.createWriteStream(finalPath)
             writer.on("close", () => {
@@ -66,25 +67,25 @@ async function main() {
         async function getLinks(cursor) {
             if (userMode) {
                 if (gfycats.length === 0) {
-                    const data = (await instance.get(userEndpoint.replace("$user", user).replace("$count", userCount))).data
+                    const data = (await instance.get(userEndpoint.replace("$user", query).replace("$count", userCount))).data
                     data.gfycats.forEach(gfy => gfycats.push(gfy))
                     await getLinks(data.cursor)
                     return
                 }
                 if (cursor) {
-                    const data = (await instance.get(userEndpoint.replace("$user", user).replace("$count", userCount) + `&cursor=${cursor}`)).data
+                    const data = (await instance.get(userEndpoint.replace("$user", query).replace("$count", userCount) + `&cursor=${cursor}`)).data
                     data.gfycats.forEach(gfy => gfycats.push(gfy))
                     await getLinks(data.cursor)
                 }
             } else {
                 if (gfycats.length === 0) {
-                    const data = (await instance.get(searchEndpoint.replace("$search", search).replace("$count", searchCount))).data
+                    const data = (await instance.get(searchEndpoint.replace("$search", query).replace("$count", searchCount))).data
                     data.gfycats.forEach(gfy => gfycats.push(gfy))
                     await getLinks(data.cursor)
                     return
                 }
                 if (cursor) {
-                    const data = (await instance.get(userEndpoint.replace("$search", search).replace("$count", searchCount) + `&cursor=${cursor}`)).data
+                    const data = (await instance.get(userEndpoint.replace("$search", query).replace("$count", searchCount) + `&cursor=${cursor}`)).data
                     data.gfycats.forEach(gfy => gfycats.push(gfy))
                     await getLinks(data.cursor)
                 }
@@ -94,10 +95,10 @@ async function main() {
         await getLinks()
 
         try {
-            fs.mkdirSync(path.join(__dirname, `/${userMode ? user : search || "trending"}`))
+            fs.mkdirSync(path.join(dirname, `/${query || "trending"}`))
         } catch (e) {}
 
-        console.log("Base file path:",__dirname)
+        console.log("Base file path:",dirname)
         console.log("Files to download:", gfycats.length)
         download(gfycats)
     } catch (e) {
