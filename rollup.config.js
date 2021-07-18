@@ -56,7 +56,6 @@ const config = [{
     output: [{
       file: './dist/lib.js',
       format: 'cjs',
-      banner: '#!/usr/bin/env node',
       sourcemap: sourceMap
     },
       {
