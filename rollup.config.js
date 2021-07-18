@@ -37,20 +37,21 @@ const config = [{
     }),
     visualizer()
   ]
-}, {
-  input: 'preflight.js',
-  output: {
-    file: 'preflight.compact.js',
-    format: 'cjs',
-    sourcemap: sourceMap
-  },
-  external: require('module').builtinModules,
-  plugins: [
-    resolve(),
-    commonjs({sourceMap}),
-    json()
-  ]
 },
+  {
+    input: 'preflight.js',
+    output: {
+      file: 'preflight.compact.js',
+      format: 'cjs',
+      sourcemap: sourceMap
+    },
+    external: require('module').builtinModules,
+    plugins: [
+      resolve(),
+      commonjs({sourceMap}),
+      json()
+    ]
+  },
   {
     input: './src/',
     output: [{
