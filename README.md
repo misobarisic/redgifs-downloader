@@ -7,20 +7,68 @@
 This is a simple command line utiliy which allows you to download all videos from any user or search term on RedGIFs. Enjoy yourselves!
 
 ## Usage
-1. Install this package locally `npm i redgifs-downloader` or globally `npm i redgifs-downloader -g` 
+
+Requires `nodejs` and `npm`
+
+1. Clone this repo and run `npm i` followed by `npm start` or `node cli.js`
+
+2. Install this package locally with `npm i redgifs-downloader` or globally with `npm i redgifs-downloader -g`
+
 ```javascript
-const downloader = require("redgifs-downloader")
+const RedgifsDownloader = require("redgifs-downloader")
+const downloader = new RedgifsDownloader(__dirname)
 
-// user and dirname are mandatory, filecount is optional
-//downloader.downloadUser(userId,dirname,fileCount)
-downloader.downloadUser(yourBelovedUser)
-
-// query and dirname are mandatory, filecount is optional
-//downloader.downloadQuery(userId,dirname,fileCount)
-downloader.downloadQuery("juicy", __dirname, 2)
+downloader.downloadQuery("juicy")
+downloader.downloadUser("your favourite user's id")
 ```
 
-2. Clone this repo and run `npm i` followed by `npm start` or `node cli.js`
+3. EventListeners and more
+```javascript
+const RedgifsDownloader = require("redgifs-downloader")
+const downloader = new RedgifsDownloader(__dirname) // Replace __dirname with your prefered directory of choice
+
+// EventListeners
+downloader.addEventListener("onStart", info => {
+    console.log("[onStart]", info)
+})
+downloader.addEventListener("onFinish", info => {
+    console.log("[onFinish]", info)
+})
+downloader.addEventListener("onFileDownloadStart", info => {
+    console.log("[onFileDownloadStart]", info)
+})
+downloader.addEventListener("onFileDownloadFinish", info => {
+    console.log("[onFileDownloadFinish]", info)
+})
+downloader.addEventListener("onGetLinks", info => {
+    console.log("[onGetLinks]", info)
+})
+downloader.addEventListener("onError", info => {
+    console.log("[onError]", info)
+})
+
+downloader.downloadQuery("juicy", options)
+```
+
+4. Standalone Links API
+
+```javascript
+const RedgifsDownloader = require("redgifs-downloader")
+// 1
+RedgifsDownloader.getUserLinks("your favourite user's id", {numberToDownload: 2}).then(console.log)
+//2
+const links = await RedgifsDownloader.getSearchLinks("juicy", {minLikes: 3})
+```
+
+### Options object structure
+
+| Field |  Data type  | Description |
+|:-----|:--------:|------:|
+| minLikes  | number | Minimum amount of likes |
+| minViews  | number | Minimum amount of views |
+| minDuration   |  number  |   Minimum gfy duration in seconds |
+| maxDuration   |  number  |   Maximum gfy duration in seconds |
+| numberToDownload   |  number  |   Max amount of gfycats to download |
 
 ## Author
 

@@ -3,7 +3,7 @@
     "redgifs-downloader": "cli.js"
   },
   "name": "redgifs-downloader",
-  "version": "0.1.2",
+  "version": "1.0.0-beta.15",
   "description": "This is a simple command line utiliy which allows you to download all videos from any user or search term on RedGIFs.",
   "engines": {
     "node": ">=8"
@@ -13,19 +13,20 @@
     "redgifs downloader",
     "nsfw"
   ],
-  "main": "lib.js",
+  "main": "./dist/lib.js",
   "scripts": {
     "pkg-build": "pkg cli.js",
     "pkg-build-win": "pkg cli.js --targets node12-win-x64",
     "start": "node cli.js",
     "build": "rollup -c rollup.config.js",
     "preinstall": "node preinstall.js",
+    "prepublishOnly": "npm run build",
     "release": "npx np"
   },
   "files": [
     "cli.compact.js",
     "cli.js",
-    "lib.js",
+    "dist/**/*",
     "preflight.compact.js",
     "preflight.js",
     "preinstall.js",
@@ -40,7 +41,8 @@
   "author": "misob",
   "license": "MIT",
   "dependencies": {
-    "axios": "^0.21.1"
+    "axios": "^0.21.1",
+    "browser-or-node": "^1.3.0"
   },
   "devDependencies": {
     "camelcase": "^5.3.1",
@@ -53,6 +55,7 @@
     "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-re": "^1.0.7",
     "rollup-plugin-strip": "^1.2.2",
+    "rollup-plugin-terser": "^7.0.2",
     "rollup-plugin-visualizer": "^1.1.1",
     "rollup-pluginutils": "^2.8.2",
     "unlazy-loader": "^0.1.3"

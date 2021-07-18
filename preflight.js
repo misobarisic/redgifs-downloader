@@ -1,5 +1,5 @@
 const kleur = require('kleur');
-kleur.enabled = require('./lib/supports-color');
+kleur.enabled = require('./src/other/supports-color');
 
 const { name } = require('./package.json');
 const fs = require('fs');
