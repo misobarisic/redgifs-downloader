@@ -11,27 +11,16 @@ const searchEndpoint = "gfycats/search?search_text=$search&count=$count&order=tr
 
 async function getLinksMain(gfycats, userMode, query, options, cursor) {
     try {
+        let data
         if (userMode) {
-            if (gfycats.length === 0) {
-                const data = (await instance.get(userMaker(query, userCount))).data
-                await pushToGfyArray(data, gfycats, userMode, query, options, getLinksMain)
-            }
-            if (cursor) {
-                const data = (await instance.get(userMaker(query, userCount) + `&cursor=${cursor}`)).data
-                await pushToGfyArray(data, gfycats, userMode, query, options, getLinksMain)
-            }
+            if (gfycats.length === 0) data = (await instance.get(userMaker(query, userCount))).data
+            if (cursor) data = (await instance.get(`${userMaker(query, userCount)}&cursor=${cursor}`)).data
         } else {
-            if (gfycats.length === 0) {
-                const data = (await instance.get(searchMaker(query, searchCount))).data
-                await pushToGfyArray(data, gfycats, userMode, query, options, getLinksMain)
-            }
-            if (cursor) {
-                const data = (await instance.get(searchMaker(query, searchCount) + `&cursor=${cursor}`)).data
-                await pushToGfyArray(data, gfycats, userMode, query, options, getLinksMain)
-            }
+            if (gfycats.length === 0) data = (await instance.get(searchMaker(query, searchCount))).data
+            if (cursor) data = (await instance.get(`${searchMaker(query, searchCount)}&cursor=${cursor}`)).data
         }
-    } catch (e) {
-    }
+        await pushToGfyArray(data, gfycats, userMode, query, options, getLinksMain)
+    } catch (e) {}
 }
 
 async function getLinks(userMode, query, options = {}, cursor) {
@@ -57,7 +46,7 @@ const pushToGfyArray = async (data, gfyArray, userMode, query, options, callback
 }
 
 const filter = (gfycats, options) => {
-    const {minDuration, maxDuration, minLikes, minViews, numberToDownload,nsfw} = options
+    const {minDuration, maxDuration, minLikes, minViews, minSize, maxSize, numberToDownload,nsfw} = options
     gfycats = gfycats.filter(gfycat => {
         let state = true
         if (minLikes && minViews) state = state && gfycat.likes >= minLikes && gfycat.views >= minViews
@@ -66,6 +55,8 @@ const filter = (gfycats, options) => {
         if (minDuration) state = state && gfycat.duration >= minViews
         if (maxDuration) state = state && gfycat.duration <= maxDuration
         if (nsfw) state = state && gfycat.nsfw
+        if (minSize) state = state && gfycat.size >= minSize
+        if (maxSize) state = state && gfycat.size <= maxSize
         return state
     })
     if (numberToDownload) gfycats = gfycats.slice(0, numberToDownload)
