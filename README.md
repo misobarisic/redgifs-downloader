@@ -6,7 +6,7 @@
     <img alt="NPM latest" src="https://img.shields.io/npm/v/redgifs-downloader" />
    </a>
 </p>
-This is a simple command line utiliy which allows you to download all videos from any user or search term on RedGIFs. Enjoy yourselves!
+This is a simple command line utility which allows you to download all videos from any user or search term on RedGIFs. Enjoy yourselves!
 
 ## Usage
 
