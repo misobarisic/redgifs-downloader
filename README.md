@@ -14,7 +14,7 @@ Requires `nodejs` and `npm`. There are multiple ways you can use this downloader
 
 1. Clone this repo and run `npm i` followed by `npm start` or `node cli.js`
 
-2. Download [linux binary](https://github.com/misobarisic/redgifs-downloader/releases)
+2. Clone this project, install dependencies with `npm i` and build your "shell node binary" with `npm run build-bin`
 
 3. Install this package locally with `npm i redgifs-downloader` or globally with `npm i redgifs-downloader -g`
 

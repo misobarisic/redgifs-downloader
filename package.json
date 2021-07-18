@@ -19,6 +19,7 @@
     "pkg-build-win": "pkg cli.js --targets node12-win-x64",
     "start": "node cli.js",
     "build": "rollup -c rollup.config.js",
+    "build-bin": "rollup -c rollup.bin.config.js",
     "preinstall": "node preinstall.js",
     "prepublishOnly": "npm run build",
     "release": "npx np"
