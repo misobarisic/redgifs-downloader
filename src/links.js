@@ -46,11 +46,12 @@ const pushToGfyArray = async (data, gfyArray, userMode, query, options, callback
 }
 
 const filter = (gfycats, options) => {
-    const {minDuration, maxDuration, minLikes, minViews, minSize, maxSize, numberToDownload,nsfw} = options
+    const {minDuration, maxDuration, minLikes, maxDislikes, minViews,minSize, maxSize, numberToDownload,nsfw} = options
     gfycats = gfycats.filter(gfycat => {
         let state = true
         if (minLikes && minViews) state = state && gfycat.likes >= minLikes && gfycat.views >= minViews
         if (minLikes) state = state && gfycat.likes >= minLikes
+        if (maxDislikes) state = state && gfycat.dislikes <= maxDislikes
         if (minViews) state = state && gfycat.views >= minViews
         if (minDuration) state = state && gfycat.duration >= minViews
         if (maxDuration) state = state && gfycat.duration <= maxDuration
