@@ -2,8 +2,15 @@
 <p>
   <a href="https://github.com/misobarisic/redgifs-downloader/blob/master/LICENSE" target="_blank">
     <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" />
+   </a> 
+<a href="https://www.npmjs.com/package/redgifs-downloader" target="_blank">
     <img alt="Downloads" src="https://img.shields.io/npm/dt/redgifs-downloader" />
+   </a>
+ <a href="https://www.npmjs.com/package/redgifs-downloader" target="_blank">
     <img alt="NPM latest" src="https://img.shields.io/npm/v/redgifs-downloader" />
+   </a>
+<a href="https://www.npmjs.com/package/redgifs-downloader" target="_blank">
+    <img alt="NPM beta" src="https://img.shields.io/npm/v/redgifs-downloader/beta" />
    </a>
 </p>
 This is a simple command line utility which allows you to download all videos from any user or search term on RedGIFs. Enjoy yourselves!
