@@ -34,35 +34,34 @@ function instance(dirname) {return new Downloader(dirname)}
 
 async function main(downloader, userMode, query, options) {
     const {dirname, eventEmitter} = downloader
-    const {minDuration, maxDuration, minLikes, minViews, numberToDownload, nsfw, minSize, maxSize} = options
-
-    // Makes sense, right?
-    if (minDuration && maxDuration) throw(new Error("Make sure minDuration and maxDuration aren't both defined"))
-    if (minSize && maxSize) throw(new Error("Make sure minSize and maxSize aren't both defined"))
+    // Make sure isMobile is always a boolean
+    options.isMobile = !!options.isMobile
+    const {numberToDownload, isMobile} = options
 
     eventEmitter.emit("onInit", {userMode, query, ...options, date: new Date()})
 
-    async function download(gfycats, index = 0) {
+    async function download(gfycats, isMobile, index = 0) {
         try {
             const length = numberToDownload || gfycats.length
             if (index !== length) {
                 // Extract gfy info/meta
                 const gfycat = gfycats[index]
-                const {gfyName: name, mp4Url, views, likes, dislikes, userName: user} = gfycat
-                const size = gfycat.content_urls.mp4.size
+                const {gfyName: name, views, likes, dislikes, userName: user} = gfycat
+                const url = isMobile ? gfycat.mobileUrl : gfycat.mp4Url
+                const size = isMobile ? gfycat.content_urls.mobile.size : gfycat.content_urls.mp4.size
                 const finalPath = path.join(dirname, `/${query || "trending"}/${name}.mp4`)
-                const meta = {dislikes, likes, name, size, user, url: mp4Url, views}
+                const meta = {dislikes, likes, name, size, user, url, views}
 
                 // Writer setup
                 const writer = fs.createWriteStream(finalPath)
                 writer.on("close", () => {
                     eventEmitter.emit("onFileDownloadFinish", {...meta, date: new Date()})
-                    download(gfycats, index + 1)
+                    download(gfycats, isMobile, index + 1)
                 })
 
                 eventEmitter.emit("onFileDownloadStart", {...meta, date: new Date()})
                 // Download mp4 and write it to a file
-                axios.get(mp4Url, {responseType: "stream"})
+                axios.get(url, {responseType: "stream"})
                     .then(async response => {
                         response.data.pipe(writer)
                     })
@@ -109,7 +108,7 @@ async function main(downloader, userMode, query, options) {
         })
 
         // Start downloading files one by one
-        download(gfycats)
+        download(gfycats, isMobile)
     } catch (e) {
         console.log("Something went wrong", e)
     }

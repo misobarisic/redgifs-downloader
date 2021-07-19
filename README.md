@@ -69,17 +69,25 @@ const links = await RedgifsDownloader.getSearchLinks("juicy", {minLikes: 3})
 
 ### Options object structure
 
-| Field |  Data type  | Description |
-|:-----|:--------:|------:|
-| minLikes  | number | Minimum amount of likes |
-| maxDislikes  | number | Maximum amount of dislikes |
-| minViews  | number | Minimum amount of views |
-| minDuration   |  number  |   Minimum gfy duration in seconds |
-| maxDuration   |  number  |   Maximum gfy duration in seconds |
-| minSize   |  number  |   Minimum gfy size in bytes |
-| maxSize   |  number  |   Maximum gfy size in bytes |
-| numberToDownload   |  number  |   Max amount of gfycats to download |
-| nsfw   |  boolean  |   ... |
+| Field |  Data type  | Description | Default |
+|:-----|:--------:|:--------:|------:|
+| minLikes  | number | Minimum amount of likes | undefined |
+| maxDislikes  | number | Maximum amount of dislikes | undefined |
+| minViews  | number | Minimum amount of views | undefined |
+| minDuration   |  number  |   Minimum gfy duration in seconds | undefined |
+| maxDuration   |  number  |   Maximum gfy duration in seconds | undefined |
+| minSize   |  number  |   Minimum gfy size in bytes | undefined |
+| maxSize   |  number  |   Maximum gfy size in bytes | undefined |
+| minHeight   |  number  |   Minimum height in pixels | undefined |
+| maxHeight   |  number  |   Maximum height in pixels | undefined |
+| minWidth   |  number  |   Minimum width in pixels | undefined |
+| maxWidth   |  number  |   Maximum width in pixels | undefined |
+| numberToDownload   |  number  |   Max amount of gfycats to download | undefined |
+| nsfw   |  boolean  |   Whether gfy is tagged as "nsfw" | undefined |
+| hasAudio   |  boolean  |   Whether gfy has audio | undefined |
+| isMobile   |  boolean  |   Whether to use mobile urls instead of mp4 | false |
+
+To save on storage space and bandwidth, make sure `isMobile` is truthy!
 
 ## Author
 

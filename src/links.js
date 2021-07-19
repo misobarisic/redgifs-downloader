@@ -46,7 +46,23 @@ const pushToGfyArray = async (data, gfyArray, userMode, query, options, callback
 }
 
 const filter = (gfycats, options) => {
-    const {minDuration, maxDuration, minLikes, maxDislikes, minViews,minSize, maxSize, numberToDownload,nsfw} = options
+    const {
+        minDuration,
+        maxDuration,
+        minLikes,
+        maxDislikes,
+        minViews,
+        minSize,
+        maxSize,
+        numberToDownload,
+        nsfw,
+        hasAudio,
+        isMobile,
+        minHeight,
+        maxHeight,
+        minWidth,
+        maxWidth
+    } = options
     gfycats = gfycats.filter(gfycat => {
         let state = true
         if (minLikes && minViews) state = state && gfycat.likes >= minLikes && gfycat.views >= minViews
@@ -55,9 +71,14 @@ const filter = (gfycats, options) => {
         if (minViews) state = state && gfycat.views >= minViews
         if (minDuration) state = state && gfycat.duration >= minViews
         if (maxDuration) state = state && gfycat.duration <= maxDuration
-        if (nsfw) state = state && gfycat.nsfw
-        if (minSize) state = state && gfycat.size >= minSize
-        if (maxSize) state = state && gfycat.size <= maxSize
+        if (minHeight) state = state && isMobile ? gfycat.content_urls.mobile.height : gfycat.content_urls.mp4.height >= minHeight
+        if (maxHeight) state = state && isMobile ? gfycat.content_urls.mobile.height : gfycat.content_urls.mp4.height <= maxHeight
+        if (minWidth) state = state && isMobile ? gfycat.content_urls.mobile.width : gfycat.content_urls.mp4.width >= minWidth
+        if (maxWidth) state = state && isMobile ? gfycat.content_urls.mobile.width : gfycat.content_urls.mp4.width <= maxWidth
+        if (minSize) state = state && isMobile ? gfycat.content_urls.mobile.size : gfycat.content_urls.mp4.size >= minSize
+        if (maxSize) state = state && isMobile ? gfycat.content_urls.mobile.size : gfycat.content_urls.mp4.size <= maxSize
+        if (typeof nsfw !== "undefined") state = state && nsfw === gfycat.nsfw
+        if (typeof hasAudio !== "undefined") state = state && hasAudio === gfycat.hasAudio
         return state
     })
     if (numberToDownload) gfycats = gfycats.slice(0, numberToDownload)
