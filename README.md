@@ -92,9 +92,9 @@ const links = await RedgifsDownloader.getSearchLinks("juicy", {minLikes: 3})
 | numberToDownload   |  number  |   Max amount of gfycats to download | undefined |
 | nsfw   |  boolean  |   Whether gfy is tagged as "nsfw" | undefined |
 | hasAudio   |  boolean  |   Whether gfy has audio | undefined |
-| isMobile   |  boolean  |   Whether to use mobile urls instead of mp4 | false |
+| useMobile   |  boolean  |   Whether to use mobile urls instead of mp4 | false |
 
-To save on storage space and bandwidth, make sure `isMobile` is truthy!
+To save on storage space and bandwidth, make sure `useMobile` is truthy!
 
 ## Author
 

@@ -34,9 +34,9 @@ function instance(dirname) {return new Downloader(dirname)}
 
 async function main(downloader, userMode, query, options) {
     const {dirname, eventEmitter} = downloader
-    // Make sure isMobile is always a boolean
-    options.isMobile = !!options.isMobile
-    const {numberToDownload, isMobile} = options
+    // Make sure useMobile is always a boolean
+    options.useMobile = !!options.useMobile
+    const {numberToDownload, useMobile} = options
 
     eventEmitter.emit("onInit", {userMode, query, ...options, date: new Date()})
 
@@ -108,7 +108,7 @@ async function main(downloader, userMode, query, options) {
         })
 
         // Start downloading files one by one
-        download(gfycats, isMobile)
+        download(gfycats, useMobile)
     } catch (e) {
         console.log("Something went wrong", e)
     }
