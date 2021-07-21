@@ -79,6 +79,8 @@ const filter = (gfycats, options) => {
         if (maxWidth) state = state && useMobile ? gfycat.content_urls.mobile.width : gfycat.content_urls.mp4.width <= maxWidth
         if (minSize) state = state && useMobile ? gfycat.content_urls.mobile.size : gfycat.content_urls.mp4.size >= minSize
         if (maxSize) state = state && useMobile ? gfycat.content_urls.mobile.size : gfycat.content_urls.mp4.size <= maxSize
+
+        // Make sure variables are defined before doing a comparison. Otherwise "undefined" and "false" would be treated in the same manner
         if (typeof nsfw !== "undefined") state = state && nsfw === gfycat.nsfw
         if (typeof hasAudio !== "undefined") state = state && hasAudio === gfycat.hasAudio
         return state
