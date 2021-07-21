@@ -81,6 +81,7 @@ const links = await RedgifsDownloader.getSearchLinks("juicy", {minLikes: 3})
 | minLikes  | number | Minimum amount of likes | undefined |
 | maxDislikes  | number | Maximum amount of dislikes | undefined |
 | minViews  | number | Minimum amount of views | undefined |
+| maxViews  | number | Maximum amount of views | undefined |
 | minDuration   |  number  |   Minimum gfy duration in seconds | undefined |
 | maxDuration   |  number  |   Maximum gfy duration in seconds | undefined |
 | minSize   |  number  |   Minimum gfy size in bytes | undefined |

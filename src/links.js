@@ -52,6 +52,7 @@ const filter = (gfycats, options) => {
         minLikes,
         maxDislikes,
         minViews,
+        maxViews,
         minSize,
         maxSize,
         numberToDownload,
@@ -69,6 +70,7 @@ const filter = (gfycats, options) => {
         if (minLikes) state = state && gfycat.likes >= minLikes
         if (maxDislikes) state = state && gfycat.dislikes <= maxDislikes
         if (minViews) state = state && gfycat.views >= minViews
+        if (maxViews) state = state && gfycat.views <= maxViews
         if (minDuration) state = state && gfycat.duration >= minViews
         if (maxDuration) state = state && gfycat.duration <= maxDuration
         if (minHeight) state = state && useMobile ? gfycat.content_urls.mobile.height : gfycat.content_urls.mp4.height >= minHeight
