@@ -50,6 +50,8 @@ const filter = (gfycats, options) => {
         minDuration,
         maxDuration,
         minLikes,
+        maxLikes,
+        minDislikes,
         maxDislikes,
         minViews,
         maxViews,
@@ -66,8 +68,9 @@ const filter = (gfycats, options) => {
     } = options
     gfycats = gfycats.filter(gfycat => {
         let state = true
-        if (minLikes && minViews) state = state && gfycat.likes >= minLikes && gfycat.views >= minViews
         if (minLikes) state = state && gfycat.likes >= minLikes
+        if (maxLikes) state = state && gfycat.likes <= maxLikes
+        if (minDislikes) state = state && gfycat.dislikes >= minDislikes
         if (maxDislikes) state = state && gfycat.dislikes <= maxDislikes
         if (minViews) state = state && gfycat.views >= minViews
         if (maxViews) state = state && gfycat.views <= maxViews
