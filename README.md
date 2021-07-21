@@ -13,7 +13,10 @@
     <img alt="NPM beta" src="https://img.shields.io/npm/v/redgifs-downloader/beta" />
    </a>
 </p>
-This is a simple command line utility which allows you to download all videos from any user or search term on RedGIFs. Enjoy yourselves!
+
+How many times have you wanted to download videos in bulk from [RedGIFs](https://www.redgifs.com/). Downloading videos
+from your favourite user and any search term has never been easier!
+Just follow the steps below and make sure to use filters to enhance your experience.
 
 ## Usage
 
