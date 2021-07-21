@@ -2,8 +2,15 @@
 <p>
   <a href="https://github.com/misobarisic/redgifs-downloader/blob/master/LICENSE" target="_blank">
     <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" />
+   </a> 
+<a href="https://www.npmjs.com/package/redgifs-downloader" target="_blank">
     <img alt="Downloads" src="https://img.shields.io/npm/dt/redgifs-downloader" />
+   </a>
+ <a href="https://www.npmjs.com/package/redgifs-downloader" target="_blank">
     <img alt="NPM latest" src="https://img.shields.io/npm/v/redgifs-downloader" />
+   </a>
+<a href="https://www.npmjs.com/package/redgifs-downloader" target="_blank">
+    <img alt="NPM beta" src="https://img.shields.io/npm/v/redgifs-downloader/beta" />
    </a>
 </p>
 This is a simple command line utility which allows you to download all videos from any user or search term on RedGIFs. Enjoy yourselves!
@@ -69,16 +76,26 @@ const links = await RedgifsDownloader.getSearchLinks("juicy", {minLikes: 3})
 
 ### Options object structure
 
-| Field |  Data type  | Description |
-|:-----|:--------:|------:|
-| minLikes  | number | Minimum amount of likes |
-| minViews  | number | Minimum amount of views |
-| minDuration   |  number  |   Minimum gfy duration in seconds |
-| maxDuration   |  number  |   Maximum gfy duration in seconds |
-| minSize   |  number  |   Minimum gfy size in bytes |
-| maxSize   |  number  |   Maximum gfy size in bytes |
-| numberToDownload   |  number  |   Max amount of gfycats to download |
-| nsfw   |  boolean  |   ... |
+| Field |  Data type  | Description | Default |
+|:-----|:--------:|:--------:|------:|
+| minLikes  | number | Minimum amount of likes | undefined |
+| maxDislikes  | number | Maximum amount of dislikes | undefined |
+| minViews  | number | Minimum amount of views | undefined |
+| maxViews  | number | Maximum amount of views | undefined |
+| minDuration   |  number  |   Minimum gfy duration in seconds | undefined |
+| maxDuration   |  number  |   Maximum gfy duration in seconds | undefined |
+| minSize   |  number  |   Minimum gfy size in bytes | undefined |
+| maxSize   |  number  |   Maximum gfy size in bytes | undefined |
+| minHeight   |  number  |   Minimum height in pixels | undefined |
+| maxHeight   |  number  |   Maximum height in pixels | undefined |
+| minWidth   |  number  |   Minimum width in pixels | undefined |
+| maxWidth   |  number  |   Maximum width in pixels | undefined |
+| numberToDownload   |  number  |   Max amount of gfycats to download | undefined |
+| nsfw   |  boolean  |   Whether gfy is tagged as "nsfw" | undefined |
+| hasAudio   |  boolean  |   Whether gfy has audio | undefined |
+| useMobile   |  boolean  |   Whether to use mobile urls instead of mp4 | false |
+
+To save on storage space and bandwidth, make sure `useMobile` is truthy!
 
 ## Author
 

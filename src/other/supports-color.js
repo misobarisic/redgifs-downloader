@@ -1,4 +1,4 @@
-const { env } = process;
+const {env} = process;
 
 const forceColor = readEnv('FORCE_COLOR');
 const noColor = readEnv('NO_COLOR');
