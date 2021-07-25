@@ -13,7 +13,10 @@
     <img alt="NPM beta" src="https://img.shields.io/npm/v/redgifs-downloader/beta" />
    </a>
 </p>
-This is a simple command line utility which allows you to download all videos from any user or search term on RedGIFs. Enjoy yourselves!
+
+How many times have you wanted to download videos in bulk from [RedGIFs](https://www.redgifs.com/). Downloading videos
+from your favourite user and any search term has never been easier!
+Just follow the steps below and make sure to use filters to enhance your experience.
 
 ## Usage
 
@@ -62,6 +65,7 @@ downloader.addEventListener("onError", info => {
 })
 
 downloader.downloadQuery("juicy", options)
+// options object explained down below
 ```
 
 5. Standalone Links API
@@ -79,6 +83,8 @@ const links = await RedgifsDownloader.getSearchLinks("juicy", {minLikes: 3})
 | Field |  Data type  | Description | Default |
 |:-----|:--------:|:--------:|------:|
 | minLikes  | number | Minimum amount of likes | undefined |
+| maxLikes  | number | Maximum amount of likes | undefined |
+| minDislikes  | number | Minimum amount of dislikes | undefined |
 | maxDislikes  | number | Maximum amount of dislikes | undefined |
 | minViews  | number | Minimum amount of views | undefined |
 | maxViews  | number | Maximum amount of views | undefined |

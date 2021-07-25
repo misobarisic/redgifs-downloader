@@ -40,15 +40,15 @@ async function main(downloader, userMode, query, options) {
 
     eventEmitter.emit("onInit", {userMode, query, ...options, date: new Date()})
 
-    async function download(gfycats, isMobile, index = 0) {
+    async function download(gfycats, useMobile, index = 0) {
         try {
             const length = numberToDownload || gfycats.length
             if (index !== length) {
                 // Extract gfy info/meta
                 const gfycat = gfycats[index]
                 const {gfyName: name, views, likes, dislikes, userName: user} = gfycat
-                const url = isMobile ? gfycat.mobileUrl : gfycat.mp4Url
-                const size = isMobile ? gfycat.content_urls.mobile.size : gfycat.content_urls.mp4.size
+                const url = useMobile ? gfycat.mobileUrl : gfycat.mp4Url
+                const size = useMobile ? gfycat.content_urls.mobile.size : gfycat.content_urls.mp4.size
                 const finalPath = path.join(dirname, `/${query || "trending"}/${name}.mp4`)
                 const meta = {dislikes, likes, name, size, user, url, views}
 
@@ -56,7 +56,7 @@ async function main(downloader, userMode, query, options) {
                 const writer = fs.createWriteStream(finalPath)
                 writer.on("close", () => {
                     eventEmitter.emit("onFileDownloadFinish", {...meta, date: new Date()})
-                    download(gfycats, isMobile, index + 1)
+                    download(gfycats, useMobile, index + 1)
                 })
 
                 eventEmitter.emit("onFileDownloadStart", {...meta, date: new Date()})

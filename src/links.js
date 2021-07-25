@@ -46,43 +46,56 @@ const pushToGfyArray = async (data, gfyArray, userMode, query, options, callback
 }
 
 const filter = (gfycats, options) => {
-    const {
-        minDuration,
-        maxDuration,
-        minLikes,
-        maxDislikes,
-        minViews,
-        maxViews,
-        minSize,
-        maxSize,
-        numberToDownload,
-        nsfw,
-        hasAudio,
-        useMobile,
-        minHeight,
-        maxHeight,
-        minWidth,
-        maxWidth
-    } = options
+    const {numberToDownload, useMobile} = options
+
+    const minMaxOptionsConfig = ["likes", "dislikes", "views", "duration"]
+    const minMaxOptions = []
+    const minMaxMobileOptionsConfig = ["height", "width", "size"]
+    const minMaxMobileOptions = []
+    const boolOptionsConfig = ["nsfw", "hasAudio"]
+    const boolOptions = []
+
+    const minMaxFunc = (option, arr) => {
+        const min = options[`min${option[0].toUpperCase()}${option.slice(1)}`]
+        const max = options[`max${option[0].toUpperCase()}${option.slice(1)}`]
+        if (typeof min !== "undefined") arr.push({option, type: "min", value: min})
+        if (typeof max !== "undefined") arr.push({option, type: "max", value: max})
+    }
+
+    minMaxOptionsConfig.forEach(option => {
+        minMaxFunc(option, minMaxOptions)
+    })
+
+    minMaxMobileOptionsConfig.forEach(option => {
+        minMaxFunc(option, minMaxMobileOptions)
+    })
+
+    boolOptionsConfig.forEach(option => {
+        if (typeof options[option] !== "undefined") boolOptions.push({option, value: options[option]})
+    })
+
     gfycats = gfycats.filter(gfycat => {
         let state = true
-        if (minLikes && minViews) state = state && gfycat.likes >= minLikes && gfycat.views >= minViews
-        if (minLikes) state = state && gfycat.likes >= minLikes
-        if (maxDislikes) state = state && gfycat.dislikes <= maxDislikes
-        if (minViews) state = state && gfycat.views >= minViews
-        if (maxViews) state = state && gfycat.views <= maxViews
-        if (minDuration) state = state && gfycat.duration >= minViews
-        if (maxDuration) state = state && gfycat.duration <= maxDuration
-        if (minHeight) state = state && useMobile ? gfycat.content_urls.mobile.height : gfycat.content_urls.mp4.height >= minHeight
-        if (maxHeight) state = state && useMobile ? gfycat.content_urls.mobile.height : gfycat.content_urls.mp4.height <= maxHeight
-        if (minWidth) state = state && useMobile ? gfycat.content_urls.mobile.width : gfycat.content_urls.mp4.width >= minWidth
-        if (maxWidth) state = state && useMobile ? gfycat.content_urls.mobile.width : gfycat.content_urls.mp4.width <= maxWidth
-        if (minSize) state = state && useMobile ? gfycat.content_urls.mobile.size : gfycat.content_urls.mp4.size >= minSize
-        if (maxSize) state = state && useMobile ? gfycat.content_urls.mobile.size : gfycat.content_urls.mp4.size <= maxSize
-
-        // Make sure variables are defined before doing a comparison. Otherwise "undefined" and "false" would be treated in the same manner
-        if (typeof nsfw !== "undefined") state = state && nsfw === gfycat.nsfw
-        if (typeof hasAudio !== "undefined") state = state && hasAudio === gfycat.hasAudio
+        // MinMaxOptions
+        minMaxOptions.forEach(option => {
+            if (option.type === "min") {
+                state = state && gfycat[option.option] >= option.value
+            } else if (option.type === "max") {
+                state = state && gfycat[option.option] <= option.value
+            }
+        })
+        // MinMaxMobileOptions
+        minMaxMobileOptions.forEach(option => {
+            if (option.type === "min") {
+                state = state && useMobile ? gfycat.content_urls.mobile[option.option] : gfycat.content_urls.mp4[option.option] >= option.value
+            } else if (option.type === "max") {
+                state = state && useMobile ? gfycat.content_urls.mobile[option.option] : gfycat.content_urls.mp4[option.option] <= option.value
+            }
+        })
+        // BoolOptions
+        boolOptions.forEach(option => {
+            state = state && option.value === gfycat[option.option]
+        })
         return state
     })
     if (numberToDownload) gfycats = gfycats.slice(0, numberToDownload)
