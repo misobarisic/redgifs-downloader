@@ -65,6 +65,7 @@ downloader.addEventListener("onError", info => {
 })
 
 downloader.downloadQuery("juicy", options)
+// options object explained down below
 ```
 
 5. Standalone Links API
