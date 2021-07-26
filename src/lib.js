@@ -42,10 +42,19 @@ async function main(downloader, userMode, query, options = {}) {
 
     async function download(gfycats, useMobile, index = 0) {
         try {
-            const length = numberToDownload || gfycats.length
-            if (index !== length) {
+            if (!(index === numberToDownload || index === gfycats.length)) {
                 // Extract gfy info/meta
                 const gfycat = gfycats[index]
+
+                // Remove gfy from array if undefined and start from the next one
+                if (!gfycat) {
+                    const cats = []
+                    let tmpIndex = 0
+                    gfycats.forEach(g => {
+                        if (tmpIndex !== index) cats.push(g)
+                    })
+                    return download(gfycats, useMobile, index)
+                }
                 const {gfyName: name, views, likes, dislikes, userName: user} = gfycat
                 const url = useMobile ? gfycat.mobileUrl : gfycat.mp4Url
                 const size = useMobile ? gfycat.content_urls.mobile.size : gfycat.content_urls.mp4.size
