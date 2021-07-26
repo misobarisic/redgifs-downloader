@@ -49,7 +49,7 @@ async function main(downloader, userMode, query, options = {}) {
                 const {gfyName: name, views, likes, dislikes, userName: user} = gfycat
                 const url = useMobile ? gfycat.mobileUrl : gfycat.mp4Url
                 const size = useMobile ? gfycat.content_urls.mobile.size : gfycat.content_urls.mp4.size
-                const finalPath = path.join(dirname, `/${query || "trending"}${useMobile ? " mobile" : ""}/${query ? name : `${user} - ${name}`}.mp4`)
+                const finalPath = path.join(dirname, `/${query || "trending"}${useMobile ? " mobile" : ""}/${userMode ? name : `${user} - ${name}`}.mp4`)
                 const meta = {dislikes, likes, name, size, formattedSize: formatBytes(size), user, url, views}
                 const info = {...meta, date: new Date()}
 
