@@ -57,6 +57,9 @@ downloader.addEventListener("onFileDownloadStart", info => {
 downloader.addEventListener("onFileDownloadFinish", info => {
     console.log("[onFileDownloadFinish]", info)
 })
+downloader.addEventListener("onFileDownloadSkip", info => {
+    console.log("[onFileDownloadSkip]", info)
+})
 downloader.addEventListener("onGetLinks", info => {
     console.log("[onGetLinks]", info)
 })
