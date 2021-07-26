@@ -51,20 +51,26 @@ async function main(downloader, userMode, query, options = {}) {
                 const size = useMobile ? gfycat.content_urls.mobile.size : gfycat.content_urls.mp4.size
                 const finalPath = path.join(dirname, `/${query || "trending"}/${name}.mp4`)
                 const meta = {dislikes, likes, name, size, user, url, views}
+                meta.sizeMB = Math.round(size / 1048576)
 
-                // Writer setup
-                const writer = fs.createWriteStream(finalPath)
-                writer.on("close", () => {
-                    eventEmitter.emit("onFileDownloadFinish", {...meta, date: new Date()})
+                if (fs.existsSync(finalPath)) {
+                    eventEmitter.emit("onFileDownloadSkip", {...meta, date: new Date()})
                     download(gfycats, useMobile, index + 1)
-                })
-
-                eventEmitter.emit("onFileDownloadStart", {...meta, date: new Date()})
-                // Download mp4 and write it to a file
-                axios.get(url, {responseType: "stream"})
-                    .then(async response => {
-                        response.data.pipe(writer)
+                } else {
+                    // Writer setup
+                    const writer = fs.createWriteStream(finalPath)
+                    writer.on("close", () => {
+                        eventEmitter.emit("onFileDownloadFinish", {...meta, date: new Date()})
+                        download(gfycats, useMobile, index + 1)
                     })
+
+                    eventEmitter.emit("onFileDownloadStart", {...meta, date: new Date()})
+                    // Download mp4 and write it to a file
+                    axios.get(url, {responseType: "stream"})
+                        .then(async response => {
+                            response.data.pipe(writer)
+                        })
+                }
             } else {
                 eventEmitter.emit("onFinish", {
                     availableFiles: gfycats.length,
