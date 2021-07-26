@@ -49,9 +49,8 @@ async function main(downloader, userMode, query, options = {}) {
                 const {gfyName: name, views, likes, dislikes, userName: user} = gfycat
                 const url = useMobile ? gfycat.mobileUrl : gfycat.mp4Url
                 const size = useMobile ? gfycat.content_urls.mobile.size : gfycat.content_urls.mp4.size
-                const finalPath = path.join(dirname, `/${query || "trending"}${useMobile ? " mobile" : ""}/${name}.mp4`)
-                const meta = {dislikes, likes, name, size, user, url, views}
-                meta.formattedSize = formatBytes(size)
+                const finalPath = path.join(dirname, `/${query || "trending"}${useMobile ? " mobile" : ""}/${query ? name : `${user} - ${name}`}.mp4`)
+                const meta = {dislikes, likes, name, size, formattedSize: formatBytes(size), user, url, views}
                 const info = {...meta, date: new Date()}
 
                 if (fs.existsSync(finalPath)) {
@@ -78,7 +77,7 @@ async function main(downloader, userMode, query, options = {}) {
                 eventEmitter.emit("onFinish", {
                     availableFiles: gfycats.length,
                     date: new Date(),
-                    numberToDownload: numberToDownload,
+                    numberToDownload: numberToDownload || "not specified",
                     query,
                     userMode
                 })
@@ -106,7 +105,7 @@ async function main(downloader, userMode, query, options = {}) {
         eventEmitter.emit("onStart", {
             availableFiles: gfycats.length,
             date: new Date(),
-            numberToDownload: numberToDownload,
+            numberToDownload: numberToDownload || "not specified",
             query,
             userMode
         })
