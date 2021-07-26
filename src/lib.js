@@ -52,19 +52,19 @@ async function main(downloader, userMode, query, options = {}) {
                 const finalPath = path.join(dirname, `/${query || "trending"}/${name}.mp4`)
                 const meta = {dislikes, likes, name, size, user, url, views}
                 meta.sizeMB = Math.round(size / 1048576)
+                const info = {...meta, date: new Date()}
 
                 if (fs.existsSync(finalPath)) {
-                    eventEmitter.emit("onFileDownloadSkip", {...meta, date: new Date()})
+                    eventEmitter.emit("onFileDownloadSkip", info)
                     download(gfycats, useMobile, index + 1)
                 } else {
                     // Writer setup
                     const writer = fs.createWriteStream(finalPath)
                     writer.on("close", () => {
-                        eventEmitter.emit("onFileDownloadFinish", {...meta, date: new Date()})
+                        eventEmitter.emit("onFileDownloadFinish", info)
                         download(gfycats, useMobile, index + 1)
                     })
-
-                    eventEmitter.emit("onFileDownloadStart", {...meta, date: new Date()})
+                    eventEmitter.emit("onFileDownloadStart", info)
                     // Download mp4 and write it to a file
                     axios.get(url, {responseType: "stream"})
                         .then(async response => {
