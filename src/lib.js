@@ -32,7 +32,7 @@ class Downloader {
 function create(dirname) {return new Downloader(dirname)}
 function instance(dirname) {return new Downloader(dirname)}
 
-async function main(downloader, userMode, query, options) {
+async function main(downloader, userMode, query, options = {}) {
     const {dirname, eventEmitter} = downloader
     // Make sure useMobile is always a boolean
     options.useMobile = !!options.useMobile
