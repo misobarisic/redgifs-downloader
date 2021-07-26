@@ -49,9 +49,9 @@ async function main(downloader, userMode, query, options = {}) {
                 const {gfyName: name, views, likes, dislikes, userName: user} = gfycat
                 const url = useMobile ? gfycat.mobileUrl : gfycat.mp4Url
                 const size = useMobile ? gfycat.content_urls.mobile.size : gfycat.content_urls.mp4.size
-                const finalPath = path.join(dirname, `/${query || "trending"}/${name}.mp4`)
+                const finalPath = path.join(dirname, `/${query || "trending"}${useMobile ? " mobile" : ""}/${name}.mp4`)
                 const meta = {dislikes, likes, name, size, user, url, views}
-                meta.sizeMB = Math.round(size / 1048576)
+                meta.formattedSize = formatBytes(size)
                 const info = {...meta, date: new Date()}
 
                 if (fs.existsSync(finalPath)) {
@@ -69,6 +69,9 @@ async function main(downloader, userMode, query, options = {}) {
                     axios.get(url, {responseType: "stream"})
                         .then(async response => {
                             response.data.pipe(writer)
+                        })
+                        .catch(err => {
+                            download(gfycats, useMobile, index + 1)
                         })
                 }
             } else {
@@ -96,7 +99,7 @@ async function main(downloader, userMode, query, options = {}) {
 
         // Create write folder if not already present
         try {
-            fs.mkdirSync(path.join(dirname, `/${query || "trending"}`))
+            fs.mkdirSync(path.join(dirname, `/${query || "trending"}${useMobile ? " mobile" : ""}`))
         } catch (e) {
         }
 
@@ -119,4 +122,13 @@ async function main(downloader, userMode, query, options = {}) {
     } catch (e) {
         console.log("Something went wrong", e)
     }
+}
+
+function formatBytes(bytes, decimals = 2) {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const dm = decimals < 0 ? 0 : decimals;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
 }
