@@ -75,6 +75,7 @@ async function main(downloader, userMode, query, options = {}) {
                 })
             }
         } catch (error) {
+            download(gfycats, useMobile, index + 1) // Continue downloading
             eventEmitter.emit("onError", {downloader, error})
         }
     }
