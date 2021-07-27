@@ -1,0 +1,26 @@
+on:
+  schedule:
+    # Run this once per day (hours in UTC time zone).
+    # Towards the end of the day for keeping the last
+    # data point meaningful.
+    - cron: "* 23 * * *"
+  workflow_dispatch: # Allow for running this manually.
+
+jobs:
+  j1:
+    name: github-repo-stats
+    runs-on: ubuntu-latest
+    steps:
+      - name: GHRS
+        uses: jgehrcke/github-repo-stats@HEAD
+        with:
+          # Define the target repository, the repo to fetch
+          # stats for and to generate the report for.
+          # Leave this undefined when stats repository
+          # and data repository should be the same.
+          repository: misobarisic/stats-report
+          # Required token privileges: Can read the target
+          # repo, and can push to the repository this
+          # workflow file lives in (to store data and
+          # the report files).
+          ghtoken: ${{ secrets.tkn }}
