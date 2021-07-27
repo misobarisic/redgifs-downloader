@@ -11,6 +11,13 @@ const searchEndpoint = "gfycats/search?search_text=$search&count=$count&order=tr
 
 async function getLinksMain(gfycats, userMode, query, options, cursor) {
     try {
+        // stop fetching links if numberToDownload is exceeded
+        // Default numberToDownload is 250
+        const numberToDownload = options.numberToDownload || 250
+        if (gfycats.length >= numberToDownload) {
+            return
+        }
+
         let data
         if (userMode) {
             if (gfycats.length === 0) data = (await instance.get(userMaker(query, userCount))).data

@@ -99,7 +99,7 @@ const links = await RedgifsDownloader.getSearchLinks("juicy", {minLikes: 3})
 | maxHeight   |  number  |   Maximum height in pixels | undefined |
 | minWidth   |  number  |   Minimum width in pixels | undefined |
 | maxWidth   |  number  |   Maximum width in pixels | undefined |
-| numberToDownload   |  number  |   Max amount of gfycats to download | undefined |
+| numberToDownload   |  number  |   Max amount of gfycats to download | 250 |
 | nsfw   |  boolean  |   Whether gfy is tagged as "nsfw" | undefined |
 | hasAudio   |  boolean  |   Whether gfy has audio | undefined |
 | useMobile   |  boolean  |   Whether to use mobile urls instead of mp4 | false |
