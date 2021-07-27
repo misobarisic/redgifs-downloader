@@ -23,4 +23,4 @@ jobs:
           # repo, and can push to the repository this
           # workflow file lives in (to store data and
           # the report files).
-          ghtoken: ${{ secrets.tkn }}
+          ghtoken: ${{ secrets.ghrs_github_api_token }}
