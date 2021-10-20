@@ -34,9 +34,10 @@ function instance(dirname) {return new Downloader(dirname)}
 
 async function main(downloader, userMode, query, options = {}) {
     const {dirname, eventEmitter} = downloader
-    // Make sure useMobile is always a boolean
+    // Make sure useMobile & skipExisting is always a boolean
     options.useMobile = !!options.useMobile
-    const {numberToDownload, useMobile} = options
+    options.skipExisting = !!options.skipExisting
+    const {numberToDownload, useMobile, skipExisting} = options
 
     eventEmitter.emit("onInit", {userMode, query, ...options, date: new Date()})
 
@@ -55,6 +56,7 @@ async function main(downloader, userMode, query, options = {}) {
                     })
                     return download(gfycats, useMobile, index)
                 }
+
                 const {gfyName: name, views, likes, dislikes, userName: user} = gfycat
                 const url = useMobile ? gfycat.mobileUrl : gfycat.mp4Url
                 const size = useMobile ? gfycat.content_urls.mobile.size : gfycat.content_urls.mp4.size
@@ -62,7 +64,7 @@ async function main(downloader, userMode, query, options = {}) {
                 const meta = {dislikes, likes, name, size, formattedSize: formatBytes(size), user, url, views, index}
                 const info = {...meta, date: new Date()}
 
-                if (fs.existsSync(finalPath)) {
+                if (skipExisting && fs.existsSync(finalPath)) {
                     eventEmitter.emit("onFileDownloadSkip", info)
                     download(gfycats, useMobile, index + 1)
                 } else {

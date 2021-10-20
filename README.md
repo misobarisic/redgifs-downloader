@@ -20,13 +20,12 @@ Just follow the steps below and make sure to use filters to enhance your experie
 
 ## Usage
 
-Requires `nodejs` and `npm`. There are multiple ways you can use this downloader. Pick one
+Requires `nodejs` and `npm`. There are multiple ways you can use this downloader.
+Install this package locally with `npm i redgifs-downloader` or globally with `npm i redgifs-downloader -g`
 
-1. Clone this repo and run `npm i` followed by `npm start` or `node cli.js`
+1. Recommended use case
 
-2. Clone this project, install dependencies with `npm i` and build your "shell node binary" with `npm run build-bin`
-
-3. Install this package locally with `npm i redgifs-downloader` or globally with `npm i redgifs-downloader -g`
+#### Simple Approach
 
 ```javascript
 const RedgifsDownloader = require("redgifs-downloader")
@@ -36,7 +35,8 @@ downloader.downloadQuery("juicy")
 downloader.downloadUser("your favourite user's id")
 ```
 
-4. EventListeners and more
+#### Advanced Approach
+
 ```javascript
 const RedgifsDownloader = require("redgifs-downloader")
 const downloader = RedgifsDownloader.instance(__dirname) // Replace __dirname with your prefered directory of choice
@@ -71,7 +71,7 @@ downloader.downloadQuery("juicy", options)
 // options object explained down below
 ```
 
-5. Standalone Links API
+2. Standalone Links API
 
 ```javascript
 const RedgifsDownloader = require("redgifs-downloader")
@@ -103,8 +103,10 @@ const links = await RedgifsDownloader.getSearchLinks("juicy", {minLikes: 3})
 | nsfw   |  boolean  |   Whether gfy is tagged as "nsfw" | undefined |
 | hasAudio   |  boolean  |   Whether gfy has audio | undefined |
 | useMobile   |  boolean  |   Whether to use mobile urls instead of mp4 | false |
+| skipExisting | boolean | Whether to skip redownloading already existing files | false
 
-To save on storage space and bandwidth, make sure `useMobile` is truthy!
+To save on storage space and bandwidth, make sure `useMobile` is truthy! If a file is malformed and cannot be properly played,
+`skipExisting` does not care. It will always skip when there is a chance.
 
 ## Author
 
@@ -112,6 +114,7 @@ To save on storage space and bandwidth, make sure `useMobile` is truthy!
 
 * Website: https://www.misobarisic.com
 * GitHub: [@misobarisic](https://github.com/misobarisic)
+* GitLab: [@misobarisic](https://gitlab.com/misobarisic)
 
 ## Show your support
 
