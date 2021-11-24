@@ -29,6 +29,8 @@ Install this package locally with `npm i redgifs-downloader` or globally with `n
 
 ```javascript
 const RedgifsDownloader = require("redgifs-downloader")
+// Replace __dirname with your prefered starting directory of choice
+// Gifs will be downloaded into their corresponding subdirectories
 const downloader = RedgifsDownloader.create(__dirname)
 
 downloader.downloadQuery("juicy")
@@ -39,7 +41,9 @@ downloader.downloadUser("your favourite user's id")
 
 ```javascript
 const RedgifsDownloader = require("redgifs-downloader")
-const downloader = RedgifsDownloader.instance(__dirname) // Replace __dirname with your prefered directory of choice
+// Replace __dirname with your prefered starting directory of choice
+// Gifs will be downloaded into their corresponding subdirectories
+const downloader = RedgifsDownloader.instance(__dirname)
 
 // EventListeners
 downloader.addEventListener("onInit", info => {
@@ -93,8 +97,6 @@ const links = await RedgifsDownloader.getSearchLinks("juicy", {minLikes: 3})
 | maxViews  | number | Maximum amount of views | undefined |
 | minDuration   |  number  |   Minimum gfy duration in seconds | undefined |
 | maxDuration   |  number  |   Maximum gfy duration in seconds | undefined |
-| minSize   |  number  |   Minimum gfy size in bytes | undefined |
-| maxSize   |  number  |   Maximum gfy size in bytes | undefined |
 | minHeight   |  number  |   Minimum height in pixels | undefined |
 | maxHeight   |  number  |   Maximum height in pixels | undefined |
 | minWidth   |  number  |   Minimum width in pixels | undefined |

@@ -1,55 +1,70 @@
 const axios = require("axios")
 const instance = axios.create({
-    baseURL: "https://api.redgifs.com/v1",
+    baseURL: "https://api.redgifs.com/v2/",
+    timeout: 10000,
+})
+const instanceOld = axios.create({
+    baseURL: "https://api.redgifs.com/v1/",
     timeout: 10000,
 })
 
 const userCount = 100
 const userEndpoint = "users/$user/gfycats?count=$count"
 const searchCount = 150
-const searchEndpoint = "gfycats/search?search_text=$search&count=$count&order=trending"
+const searchEndpoint = "gifs/search?search_text=$search&count=$count&order=trending"
 
-async function getLinksMain(gfycats, userMode, query, options, cursor) {
+async function getLinksMain(gifs, userMode, query, options, page) {
     try {
         // stop fetching links if numberToDownload is exceeded
         // Default numberToDownload is 250
         const numberToDownload = options.numberToDownload || 250
-        if (gfycats.length >= numberToDownload) {
+        if (gifs.length >= numberToDownload) {
             return
         }
 
         let data
         if (userMode) {
-            if (gfycats.length === 0) data = (await instance.get(userMaker(query, userCount))).data
-            if (cursor) data = (await instance.get(`${userMaker(query, userCount)}&cursor=${cursor}`)).data
+            throw new Error("Fetching user specific gifs is currently not supported due to some API changes on RedGIFs' side.")
+            if (gifs.length === 0) data = (await instanceOld.get(userMaker(query, userCount))).data
+            if (page) data = (await instanceOld.get(`${userMaker(query, userCount)}&page=${page}`)).data
         } else {
-            if (gfycats.length === 0) data = (await instance.get(searchMaker(query, searchCount))).data
-            if (cursor) data = (await instance.get(`${searchMaker(query, searchCount)}&cursor=${cursor}`)).data
+            if (gifs.length === 0) data = (await instance.get(searchMaker(query, searchCount))).data
+            if (page) data = (await instance.get(`${searchMaker(query, searchCount)}&page=${page}`)).data
         }
-        await pushToGfyArray(data, gfycats, userMode, query, options, getLinksMain)
-    } catch (e) {}
+
+        await pushToGfyArray(data, gifs, userMode, query, options, getLinksMain)
+    } catch (e) {
+        console.log(e)
+    }
 }
 
-async function getLinks(userMode, query, options = {}, cursor) {
-    let gfycats = []
+async function getLinks(userMode, query, options = {}, page) {
+    let gifs = []
     try {
-        await getLinksMain(gfycats, userMode, query, options, cursor)
+        await getLinksMain(gifs, userMode, query, options, page)
     } catch (e) {
     }
-    return filter(gfycats, options)
+    return filter(gifs, options)
 }
 
 async function getUserLinks(query, options, cursor) {
     return await getLinks(true, query, options, cursor)
 }
 
-async function getSearchLinks(query, options, cursor) {
-    return await getLinks(false, query, options, cursor)
+async function getSearchLinks(query, options, page) {
+    return await getLinks(false, query, options, page)
 }
 
-const pushToGfyArray = async (data, gfyArray, userMode, query, options, callbackFn) => {
-    data.gfycats.forEach(gfy => gfyArray.push(gfy))
-    await callbackFn(gfyArray, userMode, query, options, data.cursor)
+const pushToGfyArray = async (data, gifArray, userMode, query, options, callbackFn) => {
+    if (userMode) {
+        data.gfycats.forEach(gfy => gfyArray.push(gfy))
+        await callbackFn(gfyArray, userMode, query, options, data.cursor)
+    } else {
+        data.gifs.forEach(gif => gifArray.push(gif))
+        await callbackFn(gifArray, userMode, query, options, data.page)
+    }
+
+
 }
 
 const filter = (gfycats, options) => {
@@ -57,7 +72,7 @@ const filter = (gfycats, options) => {
 
     const minMaxOptionsConfig = ["likes", "dislikes", "views", "duration"]
     const minMaxOptions = []
-    const minMaxMobileOptionsConfig = ["height", "width", "size"]
+    const minMaxMobileOptionsConfig = ["height", "width"]
     const minMaxMobileOptions = []
     const boolOptionsConfig = ["nsfw", "hasAudio"]
     const boolOptions = []
@@ -94,9 +109,9 @@ const filter = (gfycats, options) => {
         // MinMaxMobileOptions
         minMaxMobileOptions.forEach(option => {
             if (option.type === "min") {
-                state = state && useMobile ? gfycat.content_urls.mobile[option.option] : gfycat.content_urls.mp4[option.option] >= option.value
+                state = state && useMobile ? gfycat.urls.sd[option.option] : gfycat.urls.hd[option.option] >= option.value
             } else if (option.type === "max") {
-                state = state && useMobile ? gfycat.content_urls.mobile[option.option] : gfycat.content_urls.mp4[option.option] <= option.value
+                state = state && useMobile ? gfycat.urls.sd[option.option] : gfycat.urls.hd[option.option] <= option.value
             }
         })
         // BoolOptions
