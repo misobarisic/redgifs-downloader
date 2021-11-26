@@ -2,7 +2,7 @@ const axios = require("axios")
 const fs = require("fs")
 const path = require("path")
 const EventEmitter = require('events')
-const {getLinksMain,filter} = require("./links")
+const {getLinksMain, filter} = require("./links")
 
 module.exports = {
     create,
@@ -13,6 +13,7 @@ class Downloader {
     constructor(dirname) {
         if (!dirname) throw(new Error("dirname constructor parameter must not be empty"))
         this.dirname = dirname
+        this.isDownloading = false
         this.eventEmitter = new EventEmitter()
     }
 
@@ -21,16 +22,22 @@ class Downloader {
     }
 
     downloadUser(query, options) {
-        return main(this, true, query, options)
+        main(this, true, query, options)
     }
 
     downloadQuery(query, options) {
-        return main(this, false, query, options)
+        main(this, false, query, options)
     }
+
 }
 
-function create(dirname) {return new Downloader(dirname)}
-function instance(dirname) {return new Downloader(dirname)}
+function create(dirname) {
+    return new Downloader(dirname)
+}
+
+function instance(dirname) {
+    return new Downloader(dirname)
+}
 
 async function main(downloader, userMode, query, options = {}) {
     const {dirname, eventEmitter} = downloader
@@ -42,8 +49,21 @@ async function main(downloader, userMode, query, options = {}) {
     eventEmitter.emit("onInit", {userMode, query, ...options, date: new Date()})
 
     async function download(gfycats, useMobile, index = 0) {
+        // if (downloader.shouldStop) {
+        //     this.shouldStop = false
+        //     this.isDownloading = false
+        //     eventEmitter.emit("onStop", {
+        //         availableFiles: gfycats.length,
+        //         date: new Date(),
+        //         numberToDownload: numberToDownload || "not specified",
+        //         query,
+        //         userMode
+        //     })
+        //     return
+        // }
         try {
             if (!(index === numberToDownload || index === gfycats.length)) {
+                downloader.isDownloading = true
                 // Extract gfy info/meta
                 const gfycat = gfycats[index]
 
@@ -84,6 +104,7 @@ async function main(downloader, userMode, query, options = {}) {
                         })
                 }
             } else {
+                downloader.isDownloading = false
                 eventEmitter.emit("onFinish", {
                     availableFiles: gfycats.length,
                     date: new Date(),
@@ -102,9 +123,6 @@ async function main(downloader, userMode, query, options = {}) {
     try {
         // Wait until all links have been fetched
         await getLinksMain(gfycats, userMode, query, options)
-
-        // Filter according to the options object
-        gfycats = filter(gfycats, options)
 
         // Create write folder if not already present
         try {
@@ -131,6 +149,9 @@ async function main(downloader, userMode, query, options = {}) {
     } catch (e) {
         console.log("Something went wrong", e)
     }
+
+    downloader.isDownloading = false
+
 }
 
 function formatBytes(bytes, decimals = 2) {

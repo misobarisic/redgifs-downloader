@@ -13,12 +13,16 @@ const userEndpoint = "users/$user/gfycats?count=$count"
 const searchCount = 150
 const searchEndpoint = "gifs/search?search_text=$search&count=$count&order=trending"
 
+let pages = 500;
 async function getLinksMain(gifs, userMode, query, options, page) {
     try {
         // stop fetching links if numberToDownload is exceeded
         // Default numberToDownload is 250
         const numberToDownload = options.numberToDownload || 250
         if (gifs.length >= numberToDownload) {
+            return
+        }
+        if (page > pages) {
             return
         }
 
@@ -55,15 +59,23 @@ async function getSearchLinks(query, options, page) {
     return await getLinks(false, query, options, page)
 }
 
+
 const pushToGfyArray = async (data, gifArray, userMode, query, options, callbackFn) => {
     if (userMode) {
         data.gfycats.forEach(gfy => gfyArray.push(gfy))
         await callbackFn(gfyArray, userMode, query, options, data.cursor)
     } else {
-        data.gifs.forEach(gif => gifArray.push(gif))
-        await callbackFn(gifArray, userMode, query, options, data.page)
-    }
+        let {gifs,page} = data
+        pages = data.pages
+        // Filter when inserting
+        gifs = filter(gifs,options)
+        gifs.forEach(gif => {
+            // Don't push to array if limit has been reached
+            if (gifArray.length < options.numberToDownload) gifArray.push(gif)
+        })
 
+        await callbackFn(gifArray, userMode, query, options, ++page)
+    }
 
 }
 
