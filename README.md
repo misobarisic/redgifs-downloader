@@ -14,6 +14,8 @@
    </a>
 </p>
 
+**A desktop application utilizing this package can be downloaded from here [Downloader](https://github.com/misobarisic/redgifs-downloader-desktop/releases)**
+
 How many times have you wanted to download videos in bulk from [RedGIFs](https://www.redgifs.com/). Downloading videos
 from your favourite user and any search term has never been easier!
 Just follow the steps below and make sure to use filters to enhance your experience.
