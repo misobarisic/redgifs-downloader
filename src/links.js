@@ -10,7 +10,7 @@ const instanceOld = axios.create({
 
 const userCount = 100
 const userEndpoint = "users/$user/gfycats?count=$count"
-const searchCount = 150
+const searchCount = 100
 const searchEndpoint = "gifs/search?search_text=$search&count=$count&order=trending"
 
 let pages = 500;
