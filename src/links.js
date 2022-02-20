@@ -3,17 +3,14 @@ const instance = axios.create({
     baseURL: "https://api.redgifs.com/v2/",
     timeout: 10000,
 })
-const instanceOld = axios.create({
-    baseURL: "https://api.redgifs.com/v1/",
-    timeout: 10000,
-})
 
 const userCount = 100
-const userEndpoint = "users/$user/gfycats?count=$count"
+const userEndpoint = "users/$user/search"
 const searchCount = 100
 const searchEndpoint = "gifs/search?search_text=$search&count=$count&order=trending"
 
 let pages = 500;
+
 async function getLinksMain(gifs, userMode, query, options, page) {
     try {
         // stop fetching links if numberToDownload is exceeded
@@ -28,9 +25,8 @@ async function getLinksMain(gifs, userMode, query, options, page) {
 
         let data
         if (userMode) {
-            throw new Error("Fetching user specific gifs is currently not supported due to some API changes on RedGIFs' side.")
-            if (gifs.length === 0) data = (await instanceOld.get(userMaker(query, userCount))).data
-            if (page) data = (await instanceOld.get(`${userMaker(query, userCount)}&page=${page}`)).data
+            if (gifs.length === 0) data = (await instance.get(userMaker(query, userCount))).data
+            if (page) data = (await instance.get(`${userMaker(query, userCount)}?page=${page}`)).data
         } else {
             if (gifs.length === 0) data = (await instance.get(searchMaker(query, searchCount))).data
             if (page) data = (await instance.get(`${searchMaker(query, searchCount)}&page=${page}`)).data
@@ -61,21 +57,16 @@ async function getSearchLinks(query, options, page) {
 
 
 const pushToGfyArray = async (data, gifArray, userMode, query, options, callbackFn) => {
-    if (userMode) {
-        data.gfycats.forEach(gfy => gfyArray.push(gfy))
-        await callbackFn(gfyArray, userMode, query, options, data.cursor)
-    } else {
-        let {gifs,page} = data
-        pages = data.pages
-        // Filter when inserting
-        gifs = filter(gifs,options)
-        gifs.forEach(gif => {
-            // Don't push to array if limit has been reached
-            if (gifArray.length < options.numberToDownload) gifArray.push(gif)
-        })
+    let {gifs, page} = data
+    pages = data.pages
+    // Filter when inserting
+    gifs = filter(gifs, options)
+    gifs.forEach(gif => {
+        // Don't push to array if limit has been reached
+        if (gifArray.length < options.numberToDownload) gifArray.push(gif)
+    })
 
-        await callbackFn(gifArray, userMode, query, options, ++page)
-    }
+    await callbackFn(gifArray, userMode, query, options, ++page)
 
 }
 
