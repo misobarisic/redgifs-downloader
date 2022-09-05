@@ -61,6 +61,7 @@ const pushToGfyArray = async (data, gifArray, userMode, query, options, callback
     pages = data.pages
     // Filter when inserting
     gifs = filter(gifs, options)
+
     gifs.forEach(gif => {
         // Don't push to array if limit has been reached
         if (gifArray.length < options.numberToDownload) gifArray.push(gif)
@@ -112,9 +113,9 @@ const filter = (gfycats, options) => {
         // MinMaxMobileOptions
         minMaxMobileOptions.forEach(option => {
             if (option.type === "min") {
-                state = state && useMobile ? gfycat.urls.sd[option.option] : gfycat.urls.hd[option.option] >= option.value
+                state = state && gfycat[option.option] >= option.value
             } else if (option.type === "max") {
-                state = state && useMobile ? gfycat.urls.sd[option.option] : gfycat.urls.hd[option.option] <= option.value
+                state = state && gfycat[option.option] <= option.value
             }
         })
         // BoolOptions
